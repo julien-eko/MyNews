@@ -1,7 +1,9 @@
-package com.darcos.julie.mynews;
+package com.darcos.julie.mynews.Activities;
 
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +11,9 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.darcos.julie.mynews.Views.PagerAdapter;
+import com.darcos.julie.mynews.R;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -29,6 +34,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureDrawerLayout();
 
         this.configureNavigationView();
+
+        this.configureViewPager();
+    }
+
+    private void configureViewPager() {
+        ViewPager viewPager=(ViewPager) findViewById(R.id.activity_main_viewPager);
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+
+        TabLayout tabs = (TabLayout) findViewById(R.id.activiy_main_tabLayout);
+        tabs.setupWithViewPager(viewPager);
     }
 
     @Override

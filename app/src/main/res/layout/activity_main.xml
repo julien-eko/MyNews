@@ -8,7 +8,7 @@
     android:id="@+id/activity_main_drawer_layout"
     android:fitsSystemWindows="true"
     tools:openDrawer="start"
-    tools:context="MainActivity">
+    tools:context=".Activities.MainActivity">
 
     <!-- 1 | MainActivity RootView -->
     <LinearLayout
@@ -26,6 +26,20 @@
             app:theme="@style/ToolBarStyle"
             app:titleTextColor="@android:color/white"
             app:subtitleTextColor="@android:color/black"/>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/activiy_main_tabLayout"
+            style="@style/Widget.Randoomz.TabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/activity_main_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+
 
         <!-- FrameLayout for our fragments -->
         <FrameLayout
