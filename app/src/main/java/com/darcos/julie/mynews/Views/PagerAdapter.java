@@ -23,8 +23,21 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
      @Override
     public Fragment getItem(int position){
+            if(position==0) {
+                return new TopStoriesFragment("home");
+            }
+            if(position==1){
+                return new BlankFragment();
+            }
+            if (position==2){
+                return new TopStoriesFragment("sports");
+            }
 
-         return new TopStoriesFragment();
+            else{
+
+                return new BlankFragment();
+
+            }
      }
 
 

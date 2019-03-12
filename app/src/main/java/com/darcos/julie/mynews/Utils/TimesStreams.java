@@ -1,6 +1,7 @@
 package com.darcos.julie.mynews.Utils;
 
-import com.darcos.julie.mynews.Models.TopStories;
+import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
+import com.darcos.julie.mynews.Models.TopStories.TopStories;
 
 
 import java.util.concurrent.TimeUnit;
@@ -14,6 +15,14 @@ public class TimesStreams {
     public static Observable<TopStories> streamTopStories(String section){
         TimesService timesService = TimesService.retrofit.create(TimesService.class);
         return timesService.getTopStories(section)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .timeout(10, TimeUnit.SECONDS);
+    }
+
+    public static Observable<MostPopular> streamMostPopular(){
+        TimesService timesService = TimesService.retrofit.create(TimesService.class);
+        return timesService.getMostPopular()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

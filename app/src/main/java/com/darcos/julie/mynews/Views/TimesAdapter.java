@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.darcos.julie.mynews.Models.Result;
+import com.darcos.julie.mynews.Models.TopStories.Result;
 import com.darcos.julie.mynews.R;
 
 
@@ -19,10 +19,11 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
     private RequestManager glide;
 
     // CONSTRUCTOR
-    public TimesAdapter(List<Result> list,RequestManager glide) {
+    public TimesAdapter(List<Result> list, RequestManager glide) {
         this.list = list;
         this.glide = glide;
     }
+
 
     @Override
     public TimesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

@@ -1,4 +1,4 @@
-package com.darcos.julie.mynews.Models;
+package com.darcos.julie.mynews.Models.TopStories;
 
 
 import com.google.gson.annotations.Expose;

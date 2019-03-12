@@ -1,6 +1,7 @@
 package com.darcos.julie.mynews.Utils;
 
-import com.darcos.julie.mynews.Models.TopStories;
+import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
+import com.darcos.julie.mynews.Models.TopStories.TopStories;
 
 
 
@@ -17,6 +18,9 @@ public interface TimesService {
         @GET("svc/topstories/v2/{section}.json?api-key=JyNdblyOMqqNNknG0iu5INNajfu1wAyj")
         Observable<TopStories> getTopStories(@Path("section") String section);
 
+
+        @GET("svc/mostpopular/v2/{section}/1.json?api-key=JyNdblyOMqqNNknG0iu5INNajfu1wAyj")
+        Observable<MostPopular> getMostPopular();
 
     public static final Retrofit retrofit = new Retrofit.Builder()
             .baseUrl("https://api.nytimes.com/")
