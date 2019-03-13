@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.darcos.julie.mynews.Models.Article;
+import com.darcos.julie.mynews.Models.ArticleList;
 import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
 
-import com.darcos.julie.mynews.Models.MostPopular.Result;
 import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Utils.TimesStreams;
 import com.darcos.julie.mynews.Views.TimesAdapter;
@@ -29,22 +30,20 @@ import io.reactivex.observers.DisposableObserver;
 public class MostPopularFragment extends Fragment {
 
     // FOR DESIGN
-    @BindView(R.id.fragment_most_popular_recycler_view)
-    RecyclerView recyclerView; // 1 - Declare RecyclerView
+    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView; // 1 - Declare RecyclerView
 
     //FOR DATA
     private Disposable disposable;
     // 2 - Declare list of users (GithubUser) & Adapter
-    private List<Result> list;
+    private List<Article> list;
     private TimesAdapter adapter;
-    @BindView(R.id.fragment_most_popular_swipe_container)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
 
     public MostPopularFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_most_popular, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_article, container, false);
         ButterKnife.bind(this, view);
         this.configureRecyclerView(); // - 4 Call during UI creation
         this.executeHttpRequestWithRetrofit(); // 5 - Execute stream after UI creation
@@ -76,7 +75,7 @@ public class MostPopularFragment extends Fragment {
         // 3.1 - Reset list
         this.list =new ArrayList<>();
         // 3.2 - Create adapter passing the list of users
-       // this.adapter = new TimesAdapter(this.list, Glide.with(this));
+        this.adapter = new TimesAdapter(this.list, Glide.with(this));
         // 3.3 - Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
         // 3.4 - Set layout manager to position the items
@@ -114,7 +113,7 @@ public class MostPopularFragment extends Fragment {
     private void updateUI(MostPopular articles){
         swipeRefreshLayout.setRefreshing(false);
         this.list.clear();
-        this.list.addAll(articles.getResults());
+        ArticleList.listMostPopular(this.list,articles);
         adapter.notifyDataSetChanged();
     }
 

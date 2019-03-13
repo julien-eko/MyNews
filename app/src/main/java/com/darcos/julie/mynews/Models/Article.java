@@ -11,24 +11,31 @@ public class Article {
     private String url;
     private String image;
 
+
     public Article(){}
 
-    public void articleTopStories(Result topStories) {
-        if (topStories.getSubsection() != null) {
-            this.title = topStories.getSection() + " > " + topStories.getSubsection();
-        } else {
-            this.title = topStories.getSection();
-        }
 
-        this.resume=topStories.getAbstract();
-
-        this.url=topStories.getUrl();
-
-        this.image=topStories.getMultimedia().get(0).getUrl();
-
-        //this.date=
-
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    public void setResume(String resume) {
+        this.resume = resume;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+
 
     public String getTitle() {
         return title;

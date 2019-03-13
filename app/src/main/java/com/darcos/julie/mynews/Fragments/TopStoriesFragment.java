@@ -1,22 +1,27 @@
 package com.darcos.julie.mynews.Fragments;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.darcos.julie.mynews.Models.TopStories.Result;
+import com.darcos.julie.mynews.Activities.WebViewActivity;
+import com.darcos.julie.mynews.Models.Article;
+import com.darcos.julie.mynews.Models.ArticleList;
 import com.darcos.julie.mynews.Models.TopStories.TopStories;
 import com.darcos.julie.mynews.R;
+import com.darcos.julie.mynews.Utils.ItemClickSupport;
 import com.darcos.julie.mynews.Utils.TimesStreams;
 import com.darcos.julie.mynews.Views.TimesAdapter;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +42,7 @@ public class TopStoriesFragment extends Fragment {
     //FOR DATA
     private Disposable disposable;
     // 2 - Declare list of users (GithubUser) & Adapter
-    private List<Result> list;
+    private List<Article> list;
     private TimesAdapter adapter;
     private String section;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
@@ -48,12 +53,15 @@ public class TopStoriesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_top_stories, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_article, container, false);
         ButterKnife.bind(this, view);
         this.configureRecyclerView(); // - 4 Call during UI creation
         this.executeHttpRequestWithRetrofit(); // 5 - Execute stream after UI creation
         // 4 - Configure the SwipeRefreshLayout
         this.configureSwipeRefreshLayout();
+        this.configureOnClickRecyclerView();
+
+
         return view;
     }
 
@@ -70,6 +78,21 @@ public class TopStoriesFragment extends Fragment {
                 executeHttpRequestWithRetrofit();
             }
         });
+    }
+
+    private void configureOnClickRecyclerView(){
+        ItemClickSupport.addTo(recyclerView, R.layout.fragment_article_item)
+                .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
+                    @Override
+                    public void onItemClicked(RecyclerView recyclerView, int position, View v) {
+
+                        Intent webView = new Intent(TopStoriesFragment.this.getContext(), WebViewActivity.class);
+                        webView.putExtra("url",adapter.getUrl(position));
+                        startActivity(webView);
+
+                        Log.e("TAG", "Position : "+position);
+                    }
+                });
     }
     // -----------------
     // CONFIGURATION
@@ -118,7 +141,7 @@ public class TopStoriesFragment extends Fragment {
     private void updateUI(TopStories articles){
         swipeRefreshLayout.setRefreshing(false);
         this.list.clear();
-        this.list.addAll(articles.getResults());
+        ArticleList.listTopStories(this.list,articles);
         adapter.notifyDataSetChanged();
     }
 

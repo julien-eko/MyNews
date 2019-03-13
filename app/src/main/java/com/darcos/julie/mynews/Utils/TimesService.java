@@ -19,7 +19,7 @@ public interface TimesService {
         Observable<TopStories> getTopStories(@Path("section") String section);
 
 
-        @GET("svc/mostpopular/v2/{section}/1.json?api-key=JyNdblyOMqqNNknG0iu5INNajfu1wAyj")
+        @GET("svc/mostpopular/v2/viewed/1.json?api-key=JyNdblyOMqqNNknG0iu5INNajfu1wAyj")
         Observable<MostPopular> getMostPopular();
 
     public static final Retrofit retrofit = new Retrofit.Builder()

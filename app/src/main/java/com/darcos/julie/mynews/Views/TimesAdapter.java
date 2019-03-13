@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.RequestManager;
-import com.darcos.julie.mynews.Models.TopStories.Result;
+import com.darcos.julie.mynews.Models.Article;
 import com.darcos.julie.mynews.R;
 
 
@@ -15,11 +15,11 @@ import java.util.List;
 
 public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
     // FOR DATA
-    private List<Result> list;
+    private List<Article> list;
     private RequestManager glide;
 
     // CONSTRUCTOR
-    public TimesAdapter(List<Result> list, RequestManager glide) {
+    public TimesAdapter(List<Article> list, RequestManager glide) {
         this.list = list;
         this.glide = glide;
     }
@@ -30,7 +30,7 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
         // CREATE VIEW HOLDER AND INFLATING ITS XML LAYOUT
         Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.fragment_top_stories_item, parent, false);
+        View view = inflater.inflate(R.layout.fragment_article_item, parent, false);
 
         return new TimesViewHolder(view);
     }
@@ -41,6 +41,9 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
         viewHolder.updateWithTimesUser(this.list.get(position),this.glide);
     }
 
+    public String getUrl(int position){
+        return this.list.get(position).getUrl();
+    }
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST
     @Override
     public int getItemCount() {

@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.RequestManager;
 
+import com.darcos.julie.mynews.Models.Article;
 import com.darcos.julie.mynews.Models.TopStories.Result;
 import com.darcos.julie.mynews.R;
 
@@ -25,25 +26,22 @@ public class TimesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void updateWithTimesUser(Result article, RequestManager glide) {
+    public void updateWithTimesUser(Article article, RequestManager glide) {
 
-        if (article.getSubsection().equals("")) {
-            this.textView.setText(article.getSection());
-        } else {
-            this.textView.setText(article.getSection() + " > " +article.getSubsection());
-        }
+        this.textView.setText(article.getTitle());
 
-        this.texViewWebsite.setText(article.getAbstract());
-        //creer une fonction pour afficher la bonne date
-        //this.dateView.setText(article.getPublishedDate());
+        this.texViewWebsite.setText(article.getResume());
 
+        this.dateView.setText(article.getDate());
+
+        glide.load(article.getImage()).into(imageView);
 
 
         //if no image displays a default image else app crash
-        if (article.getMultimedia().size() !=0) {
-            glide.load(article.getMultimedia().get(0).getUrl()).into(imageView);
-        } else {
+        if (article.getImage() == null) {
             glide.load(R.drawable.news).into(imageView);
+        } else {
+            glide.load(article.getImage()).into(imageView);
         }
     }
 }
