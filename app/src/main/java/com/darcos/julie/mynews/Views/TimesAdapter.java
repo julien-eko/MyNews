@@ -44,6 +44,11 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
     public String getUrl(int position){
         return this.list.get(position).getUrl();
     }
+
+
+    public String getResume(int position){
+        return this.list.get(position).getTitle();
+    }
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST
     @Override
     public int getItemCount() {

@@ -88,6 +88,7 @@ public class TopStoriesFragment extends Fragment {
 
                         Intent webView = new Intent(TopStoriesFragment.this.getContext(), WebViewActivity.class);
                         webView.putExtra("url",adapter.getUrl(position));
+                        webView.putExtra("title",adapter.getResume(position));
                         startActivity(webView);
 
                         Log.e("TAG", "Position : "+position);

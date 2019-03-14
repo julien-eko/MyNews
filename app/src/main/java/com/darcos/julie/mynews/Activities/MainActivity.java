@@ -1,5 +1,6 @@
 package com.darcos.julie.mynews.Activities;
 
+import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -38,13 +39,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         this.configureViewPager();
     }
 
-    private void configureViewPager() {
-        ViewPager viewPager=(ViewPager) findViewById(R.id.activity_main_viewPager);
-        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
-
-        TabLayout tabs = (TabLayout) findViewById(R.id.activiy_main_tabLayout);
-        tabs.setupWithViewPager(viewPager);
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -63,6 +57,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_search:
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -70,8 +75,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 4 - Handle Navigation Item Click
         int id = item.getItemId();
 
-        switch (id){
-            case R.id.activity_main_drawer_news :
+        switch (id) {
+            case R.id.action_search:
+
+                break;
+            case R.id.activity_main_drawer_news:
+
                 break;
             case R.id.activity_main_drawer_profile:
                 break;
@@ -91,14 +100,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // ---------------------
 
     // 1 - Configure Toolbar
-    private void configureToolBar(){
+    private void configureToolBar() {
         this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("My News");
     }
 
     // 2 - Configure Drawer Layout
-    private void configureDrawerLayout(){
+    private void configureDrawerLayout() {
         this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -106,8 +115,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     // 3 - Configure NavigationView
-    private void configureNavigationView(){
+    private void configureNavigationView() {
         this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+    }
+
+    private void configureViewPager() {
+        ViewPager viewPager = (ViewPager) findViewById(R.id.activity_main_viewPager);
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+
+        TabLayout tabs = (TabLayout) findViewById(R.id.activiy_main_tabLayout);
+        tabs.setupWithViewPager(viewPager);
     }
 }
