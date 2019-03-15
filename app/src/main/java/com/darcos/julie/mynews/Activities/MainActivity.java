@@ -13,6 +13,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.darcos.julie.mynews.Fragments.MostPopularFragment;
+import com.darcos.julie.mynews.Fragments.TopStoriesFragment;
 import com.darcos.julie.mynews.Views.PagerAdapter;
 import com.darcos.julie.mynews.R;
 
@@ -82,15 +84,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         int id = item.getItemId();
 
         switch (id) {
-            case R.id.action_search:
+            case R.id.activity_main_search:
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(intent);
+                break;
 
+            case R.id.activity_main_topStories:
                 break;
-            case R.id.activity_main_drawer_news:
-
+            case R.id.activity_main_most_popular:
                 break;
-            case R.id.activity_main_drawer_profile:
+            case R.id.activity_main_sports:
                 break;
-            case R.id.activity_main_drawer_settings:
+            case R.id.activity_main_notification:
+                Intent intentNotification = new Intent(MainActivity.this, NotificationsActivity.class);
+                startActivity(intentNotification);
                 break;
             default:
                 break;
