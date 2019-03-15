@@ -1,7 +1,7 @@
 package com.darcos.julie.mynews.Activities;
 
 import android.content.Intent;
-import android.support.constraint.solver.widgets.ChainHead;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,10 +10,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.darcos.julie.mynews.R;
+import com.darcos.julie.mynews.Fragments.DatePickerFragment;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity {
@@ -21,7 +25,11 @@ public class SearchActivity extends AppCompatActivity {
 
     private List<String> listChecked;
     private Button searchButton;
-
+    private EditText editText;
+    private static String beginDate;
+    private static String endDate;
+    private Button beginDateButton;
+    private Button endDateButton;
 
 
     @Override
@@ -31,18 +39,39 @@ public class SearchActivity extends AppCompatActivity {
 
         this.configureToolBar();
 
+        this.listChecked=new ArrayList<>();
+        for(int i=0;i<6;i++){
+            this.listChecked.add(null);
+        }
+
         this.searchButton = (Button) findViewById(R.id.search_button);
+        this.editText = (EditText) findViewById(R.id.search_query_term);
+        this.beginDateButton = (Button) findViewById(R.id.begin_date_button);
+        this.endDateButton = (Button) findViewById(R.id.end_date_button);
+
+
         searchButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              
+
+                Toast.makeText(SearchActivity.this, beginDate + endDate, Toast.LENGTH_LONG).show();
             }
         });
 
-
     }
 
+    public void showDatePickerDialogBegin(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
 
+        newFragment.show(getSupportFragmentManager(), "begin");
+
+    }
+    public void showDatePickerDialogEnd(View v) {
+        DialogFragment newFragment = new DatePickerFragment();
+
+        newFragment.show(getSupportFragmentManager(), "end");
+
+    }
 
 
     private void configureToolBar() {
@@ -114,5 +143,19 @@ public class SearchActivity extends AppCompatActivity {
     }
 
 
+    public static String getBeginDate() {
+        return beginDate;
+    }
 
+    public static void setBeginDate(String date) {
+        beginDate = date;
+    }
+
+    public static String getEndDate() {
+        return endDate;
+    }
+
+    public static void setEndDate(String date) {
+        endDate = date;
+    }
 }

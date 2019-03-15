@@ -20,6 +20,67 @@
             app:theme="@style/ToolBarStyle"
             app:titleTextColor="@android:color/white" />
 
+        <EditText
+            android:id="@+id/search_query_term"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/toolbar"
+            android:hint="Search query term"
+            android:textCursorDrawable="@color/toolbar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20dp"
+                    android:text="Begin Date" />
+
+                <Button
+                    android:id="@+id/begin_date_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:onClick="showDatePickerDialogBegin" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="20dp"
+                    android:text="End Date" />
+
+                <Button
+                    android:id="@+id/end_date_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:onClick="showDatePickerDialogEnd"
+                    android:text="test" />
+            </LinearLayout>
+
+        </LinearLayout>
 
         <include
             layout="@layout/check_box"
@@ -30,10 +91,10 @@
             android:id="@+id/search_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="SEARCH"
+            android:layout_margin="20dp"
             android:background="@color/toolbar"
-            android:textColor="@android:color/white"
-            android:layout_margin="20dp"/>
+            android:text="SEARCH"
+            android:textColor="@android:color/white" />
 
 
     </LinearLayout>
