@@ -75,13 +75,12 @@ public class SearchActivity extends AppCompatActivity {
 
 
     private void configureToolBar() {
-        this.toolbarSearch = (Toolbar) findViewById(R.id.activity_webview);
+        this.toolbarSearch = (Toolbar) findViewById(R.id.activity_search_toolbar);
         setSupportActionBar(toolbarSearch);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_white_24);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setTitle(getIntent().getStringExtra("title"));
         actionBar.setTitle("Search Articles");
     }
 
