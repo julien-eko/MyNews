@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.view.View;
 import android.widget.DatePicker;
 import android.widget.Toast;
 
@@ -35,14 +36,28 @@ public  class DatePickerFragment extends DialogFragment
             String y = Integer.toString(year);
             String m = Integer.toString(month + 1);
             String d = Integer.toString(day);
-            SearchActivity.setBeginDate(m + "/"+d+"/"+y);
+
+            if(d.length()==1) {
+                d = "0" + d;
+            }
+            if(m.length()==1) {
+                m = "0" + m;
+            }
+
+            SearchActivity.setBeginDate(d + "/"+m+"/"+y);
         }
 
         if(getTag() == "end"){
             String y = Integer.toString(year);
             String m = Integer.toString(month + 1);
             String d = Integer.toString(day);
-            SearchActivity.setEndDate(m + "/"+d+"/"+y);
+            if(d.length()==1) {
+                d = "0" + d;
+            }
+            if(m.length()==1) {
+                m = "0" + m;
+            }
+            SearchActivity.setEndDate(d + "/"+m+"/"+y);
         }
     }
 }

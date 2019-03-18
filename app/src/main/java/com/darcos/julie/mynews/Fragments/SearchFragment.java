@@ -78,8 +78,7 @@ public class SearchFragment extends Fragment {
         this.endDate= mCallback.endDate();
         this.querySearch=mCallback.querySearch();
 
-        Toast.makeText(getActivity(), this.beginDate,
-                Toast.LENGTH_LONG).show();
+
 
         this.configureRecyclerView(); // - 4 Call during UI creation
         this.executeHttpRequestWithRetrofit(); // 5 - Execute stream after UI creation

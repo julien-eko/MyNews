@@ -6,9 +6,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.darcos.julie.mynews.Fragments.SearchFragment;
 import com.darcos.julie.mynews.R;
+
+import java.time.Year;
+import java.util.Calendar;
 
 public class ResultSearch extends AppCompatActivity implements SearchFragment.test {
 
@@ -47,28 +51,25 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         String month="";
         String day="";
         int i=0;
-        while(!date.substring(i,i+1).equals("/")){
-            month=month + date.substring(i,i+1);
-            i=i+1;
-        }
-        i=i+1;
+
         System.out.println(i);
         while(!date.substring(i,i+1).equals("/")){
             day=day + date.substring(i,i+1);
             i=i+1;
         }
         i=i+1;
+        while(!date.substring(i,i+1).equals("/")){
+            month=month + date.substring(i,i+1);
+            i=i+1;
+        }
+
+        i=i+1;
         for(int j=0;j<4;j++){
             year=year + date.substring(i,i+1);
             i=i+1;
         }
 
-        if(day.length()==1) {
-            day = "0" + day;
-        }
-        if(month.length()==1) {
-            month = "0" + month;
-        }
+
         date = year + month + day;
 
         return date;
@@ -77,13 +78,41 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
 
     public String beginDate(){
         String begin=getIntent().getStringExtra("beginDate");
-        begin=converDate(begin);
+        if(begin == null){
+            begin="20190101";
+        }else{
+            begin=converDate(begin);
+        }
         return begin;
     }
 
     public String endDate(){
         String end=getIntent().getStringExtra("endDate");
-        end=converDate(end);
+        Toast.makeText(this, end,
+                Toast.LENGTH_LONG).show();
+        if(end == null){
+            final Calendar c = Calendar.getInstance();
+            int yearI = c.get(Calendar.YEAR);
+            int monthI = c.get(Calendar.MONTH);
+            int dayI = c.get(Calendar.DAY_OF_MONTH);
+            String day = Integer.toString(dayI);
+            String month = Integer.toString(monthI+1);
+            String year = Integer.toString(yearI);
+
+
+            if(day.length()==1) {
+                day = "0" + day;
+            }
+            if(month.length()==1) {
+                month = "0" + month;
+            }
+            end = year + month + day;
+            Toast.makeText(this, end,
+                    Toast.LENGTH_LONG).show();
+        }else{
+            end=converDate(end);
+        }
+
         return end;
     }
 

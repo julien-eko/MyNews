@@ -19,6 +19,7 @@ import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Fragments.DatePickerFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener{
@@ -29,8 +30,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private EditText editText;
     private static String beginDate;
     private static String endDate;
-    private Button beginDateButton;
-    private Button endDateButton;
+    private static Button beginDateButton;
+    private static Button endDateButton;
 
 
     @Override
@@ -52,8 +53,11 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         searchButton.setOnClickListener(this);
 
+        beginDateButton.setText("01/01/2019");
 
+        endDateButton.setText(dateToday());
     }
+
 
 
     @Override
@@ -68,6 +72,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         DialogFragment newFragment = new DatePickerFragment();
 
         newFragment.show(getSupportFragmentManager(), "begin");
+
 
     }
     public void showDatePickerDialogEnd(View v) {
@@ -145,13 +150,35 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    public String dateToday(){
 
+        final Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        String y = Integer.toString(year);
+        String m = Integer.toString(month + 1);
+        String d = Integer.toString(day);
+
+        if(d.length()==1) {
+            d = "0" + d;
+        }
+        if(m.length()==1) {
+            m = "0" + m;
+        }
+
+        return (d + "/"+m+"/"+y);
+
+
+    }
     public static String getBeginDate() {
         return beginDate;
     }
 
     public static void setBeginDate(String date) {
         beginDate = date;
+        beginDateButton.setText(beginDate);
     }
 
     public static String getEndDate() {
@@ -160,5 +187,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     public static void setEndDate(String date) {
         endDate = date;
+        endDateButton.setText(endDate);
     }
 }

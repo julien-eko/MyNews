@@ -107,7 +107,7 @@ public class ArticleList {
         String month=date.substring(5,7);
         String day=date.substring(8,10);
 
-        date = month + "/" + day + "/" + year;
+        date = day + "/" + month + "/" + year;
         return date;
     }
 }
