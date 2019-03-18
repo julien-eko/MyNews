@@ -1,7 +1,10 @@
 package com.darcos.julie.mynews.Activities;
 
-import android.content.Intent;
+
+
+
 import android.support.v4.app.DialogFragment;
+import android.content.Intent;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Fragments.DatePickerFragment;
@@ -20,7 +21,7 @@ import com.darcos.julie.mynews.Fragments.DatePickerFragment;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends AppCompatActivity implements View.OnClickListener{
     private Toolbar toolbarSearch;
 
     private List<String> listChecked;
@@ -49,15 +50,18 @@ public class SearchActivity extends AppCompatActivity {
         this.beginDateButton = (Button) findViewById(R.id.begin_date_button);
         this.endDateButton = (Button) findViewById(R.id.end_date_button);
 
+        searchButton.setOnClickListener(this);
 
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                Toast.makeText(SearchActivity.this, beginDate + endDate, Toast.LENGTH_LONG).show();
-            }
-        });
+    }
 
+
+    @Override
+    public void onClick(View v) {
+        Intent intent = new Intent(SearchActivity.this, ResultSearch.class);
+        intent.putExtra("beginDate",beginDate);
+        intent.putExtra("endDate",endDate);
+        startActivity(intent);
     }
 
     public void showDatePickerDialogBegin(View v) {

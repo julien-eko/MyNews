@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.darcos.julie.mynews.Fragments.BlankFragment;
 import com.darcos.julie.mynews.Fragments.MostPopularFragment;
+import com.darcos.julie.mynews.Fragments.SearchFragment;
 import com.darcos.julie.mynews.Fragments.TopStoriesFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
@@ -28,7 +29,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new TopStoriesFragment("home");
             }
             if(position==1){
-                return new MostPopularFragment();
+                return new BlankFragment();
             }
             if (position==2){
                 return new TopStoriesFragment("sports");

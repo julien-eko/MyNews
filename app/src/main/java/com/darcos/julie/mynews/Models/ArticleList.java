@@ -2,6 +2,8 @@ package com.darcos.julie.mynews.Models;
 
 import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
 import com.darcos.julie.mynews.Models.MostPopular.ResultMostPopular;
+import com.darcos.julie.mynews.Models.Search.Doc;
+import com.darcos.julie.mynews.Models.Search.Search;
 import com.darcos.julie.mynews.Models.TopStories.Result;
 import com.darcos.julie.mynews.Models.TopStories.TopStories;
 
@@ -40,6 +42,37 @@ public class ArticleList {
 
     }
 
+    public static  void listSearchArticle (List<Article> listArticle, Search search){
+        for(Doc result : search.getResponse().getDocs()){
+            Article article = new Article();
+
+            //if no image displays a default image else app crash
+            if (result.getMultimedia().size() !=0) {
+
+                article.setImage("https://static01.nyt.com/" + result.getMultimedia().get(0).getUrl());
+            } else {
+                article.setImage(null);
+            }
+
+            article.setUrl(result.getWebUrl());
+
+            article.setResume(result.getHeadline().getMain());
+
+            article.setTitle(result.getSectionName());
+
+            //erreur
+            //if (result.getSubsectoinName().equals("")) {
+            //    article.setTitle(result.getSectionName());
+            //} else {
+            //    article.setTitle(result.getSectionName() + " > " + result.getSubsectoinName());
+            //}
+
+
+            article.setDate(date(result.getPubDate()));
+
+            listArticle.add(article);
+        }
+    }
 
     public static void listMostPopular (List<Article> listArticle, MostPopular mostPopular){
         for(ResultMostPopular result : mostPopular.getResults()){
