@@ -107,8 +107,7 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
                 month = "0" + month;
             }
             end = year + month + day;
-            Toast.makeText(this, end,
-                    Toast.LENGTH_LONG).show();
+
         }else{
             end=converDate(end);
         }
@@ -117,7 +116,7 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
     }
 
     public String querySearch(){
-        String query="sports";
+        String query=getIntent().getStringExtra("query");
         return query;
     }
 }
