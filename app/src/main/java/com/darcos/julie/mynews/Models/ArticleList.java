@@ -1,5 +1,7 @@
 package com.darcos.julie.mynews.Models;
 
+import android.widget.Toast;
+
 import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
 import com.darcos.julie.mynews.Models.MostPopular.ResultMostPopular;
 import com.darcos.julie.mynews.Models.Search.Doc;
@@ -95,6 +97,7 @@ public class ArticleList {
 
             article.setTitle(result.getSection());
 
+            article.setDate("test");
 
             listArticle.add(article);
         }

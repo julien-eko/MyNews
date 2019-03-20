@@ -1,6 +1,5 @@
 package com.darcos.julie.mynews.Models.MostPopular;
 
-import com.darcos.julie.mynews.Models.MostPopular.MediaMetadatum;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

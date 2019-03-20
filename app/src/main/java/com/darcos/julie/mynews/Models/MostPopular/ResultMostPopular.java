@@ -51,13 +51,13 @@ public class ResultMostPopular {
     private List<String> desFacet = null;
     @SerializedName("org_facet")
     @Expose
-    private List<String> orgFacet = null;
+    private String orgFacet;
     @SerializedName("per_facet")
     @Expose
     private List<String> perFacet = null;
     @SerializedName("geo_facet")
     @Expose
-    private String geoFacet;
+    private List<String> geoFacet = null;
     @SerializedName("media")
     @Expose
     private List<Medium> media = null;
@@ -177,11 +177,11 @@ public class ResultMostPopular {
         this.desFacet = desFacet;
     }
 
-    public List<String> getOrgFacet() {
+    public String getOrgFacet() {
         return orgFacet;
     }
 
-    public void setOrgFacet(List<String> orgFacet) {
+    public void setOrgFacet(String orgFacet) {
         this.orgFacet = orgFacet;
     }
 
@@ -193,11 +193,11 @@ public class ResultMostPopular {
         this.perFacet = perFacet;
     }
 
-    public String getGeoFacet() {
+    public List<String> getGeoFacet() {
         return geoFacet;
     }
 
-    public void setGeoFacet(String geoFacet) {
+    public void setGeoFacet(List<String> geoFacet) {
         this.geoFacet = geoFacet;
     }
 

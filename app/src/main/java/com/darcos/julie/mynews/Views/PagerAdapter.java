@@ -29,7 +29,7 @@ public class PagerAdapter extends FragmentPagerAdapter {
                 return new TopStoriesFragment("home");
             }
             if(position==1){
-                return new BlankFragment();
+                return new MostPopularFragment();
             }
             if (position==2){
                 return new TopStoriesFragment("sports");

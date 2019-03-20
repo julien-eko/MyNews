@@ -1,6 +1,7 @@
 package com.darcos.julie.mynews.Models.MostPopular;
 
 
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -55,4 +56,5 @@ public class MostPopular {
     }
 
 }
+
 
