@@ -39,25 +39,14 @@ public class ResultMostPopular {
     private String source;
     @SerializedName("id")
     @Expose
-    private Integer id;
+    private Double id;
     @SerializedName("asset_id")
     @Expose
-    private Integer assetId;
+    private Double assetId;
     @SerializedName("views")
     @Expose
     private Integer views;
-    @SerializedName("des_facet")
-    @Expose
-    private List<String> desFacet = null;
-    @SerializedName("org_facet")
-    @Expose
-    private String orgFacet;
-    @SerializedName("per_facet")
-    @Expose
-    private List<String> perFacet = null;
-    @SerializedName("geo_facet")
-    @Expose
-    private List<String> geoFacet = null;
+
     @SerializedName("media")
     @Expose
     private List<Medium> media = null;
@@ -145,19 +134,19 @@ public class ResultMostPopular {
         this.source = source;
     }
 
-    public Integer getId() {
+    public Double getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Double id) {
         this.id = id;
     }
 
-    public Integer getAssetId() {
+    public Double getAssetId() {
         return assetId;
     }
 
-    public void setAssetId(Integer assetId) {
+    public void setAssetId(Double assetId) {
         this.assetId = assetId;
     }
 
@@ -169,37 +158,7 @@ public class ResultMostPopular {
         this.views = views;
     }
 
-    public List<String> getDesFacet() {
-        return desFacet;
-    }
 
-    public void setDesFacet(List<String> desFacet) {
-        this.desFacet = desFacet;
-    }
-
-    public String getOrgFacet() {
-        return orgFacet;
-    }
-
-    public void setOrgFacet(String orgFacet) {
-        this.orgFacet = orgFacet;
-    }
-
-    public List<String> getPerFacet() {
-        return perFacet;
-    }
-
-    public void setPerFacet(List<String> perFacet) {
-        this.perFacet = perFacet;
-    }
-
-    public List<String> getGeoFacet() {
-        return geoFacet;
-    }
-
-    public void setGeoFacet(List<String> geoFacet) {
-        this.geoFacet = geoFacet;
-    }
 
     public List<Medium> getMedia() {
         return media;

@@ -124,8 +124,7 @@ public class MostPopularFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-
-                e.printStackTrace();
+                Log.e("TAG","On Error"+Log.getStackTraceString(e));
             }
 
             @Override

@@ -97,7 +97,7 @@ public class ArticleList {
 
             article.setTitle(result.getSection());
 
-            article.setDate("test");
+            article.setDate(date(result.getPublishedDate()));
 
             listArticle.add(article);
         }
