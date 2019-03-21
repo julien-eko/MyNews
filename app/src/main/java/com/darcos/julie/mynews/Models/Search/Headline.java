@@ -16,7 +16,7 @@ public class Headline {
     private Object contentKicker;
     @SerializedName("print_headline")
     @Expose
-    private String printHeadline;
+    private Object printHeadline;
     @SerializedName("name")
     @Expose
     private Object name;
@@ -51,11 +51,11 @@ public class Headline {
         this.contentKicker = contentKicker;
     }
 
-    public String getPrintHeadline() {
+    public Object getPrintHeadline() {
         return printHeadline;
     }
 
-    public void setPrintHeadline(String printHeadline) {
+    public void setPrintHeadline(Object printHeadline) {
         this.printHeadline = printHeadline;
     }
 

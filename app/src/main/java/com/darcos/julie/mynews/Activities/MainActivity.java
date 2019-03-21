@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.activity_main_topStories:
+                
                 break;
             case R.id.activity_main_most_popular:
                 break;

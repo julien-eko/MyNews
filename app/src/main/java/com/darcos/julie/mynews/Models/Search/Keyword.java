@@ -16,7 +16,7 @@ public class Keyword {
     private Integer rank;
     @SerializedName("major")
     @Expose
-    private String major;
+    private Object major;
 
     public String getName() {
         return name;
@@ -42,11 +42,11 @@ public class Keyword {
         this.rank = rank;
     }
 
-    public String getMajor() {
+    public Object getMajor() {
         return major;
     }
 
-    public void setMajor(String major) {
+    public void setMajor(Object major) {
         this.major = major;
     }
 

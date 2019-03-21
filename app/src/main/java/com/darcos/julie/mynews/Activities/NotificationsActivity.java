@@ -17,12 +17,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.darcos.julie.mynews.Models.Search.Search;
 import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Utils.MyAlarmReceiver;
+import com.darcos.julie.mynews.Utils.TimesStreams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 
 public class NotificationsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -33,28 +38,36 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 1 - Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
     private String button;
+    private CheckBox checkBoxArts;
+    private CheckBox checkBoxPolitics;
+    private CheckBox checkBoxBusiness;
+    private CheckBox checkBoxSports;
+    private CheckBox checkBoxEntrepreneurs;
+    private CheckBox checkBoxTravels;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
+        this.checkBoxArts = (CheckBox) findViewById(R.id.checkbox_arts);
+        this.checkBoxPolitics = (CheckBox) findViewById(R.id.checkbox_politics);
+        this.checkBoxBusiness = (CheckBox) findViewById(R.id.checkbox_business);
+        this.checkBoxSports = (CheckBox) findViewById(R.id.checkbox_sports);
+        this.checkBoxEntrepreneurs = (CheckBox) findViewById(R.id.checkbox_entrepreneurs);
+        this.checkBoxTravels = (CheckBox) findViewById(R.id.checkbox_travel);
 
         this.editText = (EditText) findViewById(R.id.search_query_term_notification);
-
-        this.listCheckedNotification = new ArrayList<>();
-        for (int i = 0; i < 6; i++) {
-            this.listCheckedNotification.add(null);
-        }
-
         this.configureToolBar();
+        this.configureCheckbox();
         this.configureAlarmManager();
+        this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit",null));
+        Toast.makeText(this,queryShearch(), Toast.LENGTH_SHORT).show();
 
         ToggleButton toggle = (ToggleButton) findViewById(R.id.toggle_button_notifications);
         toggle.setOnCheckedChangeListener(this);
 
         this.button = getPreferences(MODE_PRIVATE).getString("toggle",null);
 
-        Toast.makeText(this, this.button, Toast.LENGTH_SHORT).show();
 
         if(this.button.equals("checked")){
             toggle.setChecked(true);
@@ -72,8 +85,13 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         super.onStop();
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         preferences.edit().putString("toggle", this.button).apply();
-
+        preferences.edit().putString("edit", this.editText.getText().toString()).apply();
+        for(int i=0;i<6;i++) {
+            preferences.edit().putString("listCheckbox" + i, this.listCheckedNotification.get(i)).apply();
+        }
     }
+
+
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -92,6 +110,8 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 2 - Configuring the AlarmManager
     private void configureAlarmManager() {
         Intent alarmIntent = new Intent(NotificationsActivity.this, MyAlarmReceiver.class);
+            alarmIntent.putExtra("queryShearch",queryShearch());
+
         pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
     // ---------------------------------------------
@@ -101,7 +121,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 3 - Start Alarm
     private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,100, pendingIntent);
+        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
         Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
 
     }
@@ -124,6 +144,32 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         actionBar.setTitle("Notifications");
     }
 
+    private void configureCheckbox(){
+        this.listCheckedNotification = new ArrayList<>();
+        for(int i=0;i<6;i++) {
+            this.listCheckedNotification.add(getPreferences(MODE_PRIVATE).getString("listCheckbox" + i, null));
+        }
+
+
+        if(this.listCheckedNotification.get(0) != null){
+            this.checkBoxArts.setChecked(true);
+        }
+        if(this.listCheckedNotification.get(1) != null){
+            this.checkBoxPolitics.setChecked(true);
+        }
+        if(this.listCheckedNotification.get(2) != null){
+            this.checkBoxBusiness.setChecked(true);
+        }
+        if(this.listCheckedNotification.get(3) != null){
+            this.checkBoxSports.setChecked(true);
+        }
+        if(this.listCheckedNotification.get(4) != null){
+            this.checkBoxEntrepreneurs.setChecked(true);
+        }
+        if(this.listCheckedNotification.get(5) != null){
+            this.checkBoxTravels.setChecked(true);
+        }
+    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -176,7 +222,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
                     this.listCheckedNotification.set(5, null);
                 break;
         }
-
+        this.configureAlarmManager();
     }
 
     private long times(int hours, int minute) {
@@ -187,6 +233,22 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         calendar.set(Calendar.MILLISECOND, 0);
 
         return calendar.getTimeInMillis();
+    }
+
+
+    public String queryShearch() {
+        String q;
+        q="";
+        q = editText.getText().toString();
+
+        for (int i = 0; i < 6; i++) {
+            if (this.listCheckedNotification.get(i) == null) {
+
+            } else {
+                q = q + "&" + this.listCheckedNotification.get(i);
+            }
+        }
+        return q;
     }
 
 
