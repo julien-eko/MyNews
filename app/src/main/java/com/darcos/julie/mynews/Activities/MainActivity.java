@@ -24,12 +24,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        this.viewPager = (ViewPager) findViewById(R.id.activity_main_viewPager);
         // 6 - Configure all views
 
         this.configureToolBar();
@@ -90,11 +91,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case R.id.activity_main_topStories:
-                
+                this.viewPager.setCurrentItem(0);
                 break;
             case R.id.activity_main_most_popular:
+                this.viewPager.setCurrentItem(1);
                 break;
             case R.id.activity_main_sports:
+                this.viewPager.setCurrentItem(2);
                 break;
             case R.id.activity_main_notification:
                 Intent intentNotification = new Intent(MainActivity.this, NotificationsActivity.class);
@@ -135,10 +138,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     private void configureViewPager() {
-        ViewPager viewPager = (ViewPager) findViewById(R.id.activity_main_viewPager);
-        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
+
+        this.viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
 
         TabLayout tabs = (TabLayout) findViewById(R.id.activiy_main_tabLayout);
-        tabs.setupWithViewPager(viewPager);
+        tabs.setupWithViewPager(this.viewPager);
     }
 }
