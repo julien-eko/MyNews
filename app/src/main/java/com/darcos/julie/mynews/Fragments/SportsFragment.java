@@ -34,7 +34,7 @@ import io.reactivex.observers.DisposableObserver;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TopStoriesFragment extends Fragment {
+public class SportsFragment extends Fragment {
 
     // FOR DESIGN
     @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView; // 1 - Declare RecyclerView
@@ -46,7 +46,7 @@ public class TopStoriesFragment extends Fragment {
     private TimesAdapter adapter;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
 
-    public TopStoriesFragment() { }
+    public SportsFragment() { }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -83,7 +83,7 @@ public class TopStoriesFragment extends Fragment {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
-                        Intent webView = new Intent(TopStoriesFragment.this.getContext(), WebViewActivity.class);
+                        Intent webView = new Intent(SportsFragment.this.getContext(), WebViewActivity.class);
                         webView.putExtra("url",adapter.getUrl(position));
                         webView.putExtra("title",adapter.getResume(position));
                         startActivity(webView);
@@ -113,7 +113,7 @@ public class TopStoriesFragment extends Fragment {
     // -------------------
 
     private void executeHttpRequestWithRetrofit(){
-        this.disposable = TimesStreams.streamTopStories("home").subscribeWith(new DisposableObserver<TopStories>() {
+        this.disposable = TimesStreams.streamTopStories("sports").subscribeWith(new DisposableObserver<TopStories>() {
             @Override
             public void onNext(TopStories articles) {
                 // 6 - Update RecyclerView after getting results from Github API
@@ -145,3 +145,4 @@ public class TopStoriesFragment extends Fragment {
 
 
 }
+

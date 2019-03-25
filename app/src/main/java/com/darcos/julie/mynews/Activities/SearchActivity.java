@@ -27,8 +27,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private List<String> listChecked;
     private Button searchButton;
     private EditText editText;
-    private static String beginDate;
-    private static String endDate;
+    private static String beginDate="01/01/2019";
+    private static String endDate=dateToday();
     private static Button beginDateButton;
     private static Button endDateButton;
 
@@ -53,8 +53,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         searchButton.setOnClickListener(this);
 
         searchButton.setEnabled(false);
-        beginDateButton.setText("01/01/2019");
-        endDateButton.setText(dateToday());
+
+        beginDateButton.setText(beginDate);
+        endDateButton.setText(endDate);
+
 
     }
 
