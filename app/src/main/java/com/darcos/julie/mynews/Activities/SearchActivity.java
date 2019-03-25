@@ -189,7 +189,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
-    public String dateToday() {
+    public static String dateToday() {
 
         final Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);

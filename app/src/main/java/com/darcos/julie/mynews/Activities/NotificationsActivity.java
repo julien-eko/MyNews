@@ -24,6 +24,7 @@ import com.darcos.julie.mynews.Utils.TimesStreams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import io.reactivex.disposables.Disposable;
@@ -121,7 +122,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 3 - Start Alarm
     private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP, 0,AlarmManager.INTERVAL_FIFTEEN_MINUTES, pendingIntent);
+       manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,AlarmManager.INTERVAL_DAY, pendingIntent);
         Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
 
     }
@@ -227,10 +228,11 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
     private long times(int hours, int minute) {
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, hours-1);
+        calendar.set(Calendar.HOUR_OF_DAY, hours);
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
+
 
         return calendar.getTimeInMillis();
     }
@@ -238,7 +240,6 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
     public String queryShearch() {
         String q;
-        q="";
         q = editText.getText().toString();
 
         for (int i = 0; i < 6; i++) {
