@@ -14,20 +14,23 @@ import com.darcos.julie.mynews.R;
 import java.time.Year;
 import java.util.Calendar;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ResultSearch extends AppCompatActivity implements SearchFragment.test {
 
-    private Toolbar toolbarSearch;
+    @BindView(R.id.activity_search_result_toolbar) Toolbar toolbarSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_search);
+        ButterKnife.bind(this);
         this.configureToolBar();
 
     }
 
     private void configureToolBar() {
-      this.toolbarSearch = (Toolbar) findViewById(R.id.activity_search_result_toolbar);
         setSupportActionBar(toolbarSearch);
 
         final ActionBar actionBar = getSupportActionBar();

@@ -27,6 +27,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
@@ -34,38 +36,33 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
 
     private List<String> listCheckedNotification;
-    private Toolbar toolbarNotifications;
-    private EditText editText;
     // 1 - Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
     private String button;
-    private CheckBox checkBoxArts;
-    private CheckBox checkBoxPolitics;
-    private CheckBox checkBoxBusiness;
-    private CheckBox checkBoxSports;
-    private CheckBox checkBoxEntrepreneurs;
-    private CheckBox checkBoxTravels;
+    @BindView(R.id.checkbox_arts) CheckBox checkBoxArts;
+    @BindView(R.id.checkbox_politics) CheckBox checkBoxPolitics;
+    @BindView(R.id.checkbox_business) CheckBox checkBoxBusiness;
+    @BindView(R.id.checkbox_sports) CheckBox checkBoxSports;
+    @BindView(R.id.checkbox_entrepreneurs) CheckBox checkBoxEntrepreneurs;
+    @BindView(R.id.checkbox_travel) CheckBox checkBoxTravels;
+    @BindView(R.id.toggle_button_notifications) ToggleButton toggle;
+    @BindView(R.id.activity_notification_toolbar) Toolbar toolbarNotifications;
+    @BindView(R.id.search_query_term_notification) EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notifications);
-        this.checkBoxArts = (CheckBox) findViewById(R.id.checkbox_arts);
-        this.checkBoxPolitics = (CheckBox) findViewById(R.id.checkbox_politics);
-        this.checkBoxBusiness = (CheckBox) findViewById(R.id.checkbox_business);
-        this.checkBoxSports = (CheckBox) findViewById(R.id.checkbox_sports);
-        this.checkBoxEntrepreneurs = (CheckBox) findViewById(R.id.checkbox_entrepreneurs);
-        this.checkBoxTravels = (CheckBox) findViewById(R.id.checkbox_travel);
+        ButterKnife.bind(this);
 
-        this.editText = (EditText) findViewById(R.id.search_query_term_notification);
         this.configureToolBar();
         this.configureCheckbox();
         this.configureAlarmManager();
         this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit",null));
-        Toast.makeText(this,queryShearch(), Toast.LENGTH_SHORT).show();
 
-        ToggleButton toggle = (ToggleButton) findViewById(R.id.toggle_button_notifications);
-        toggle.setOnCheckedChangeListener(this);
+
+
+        this.toggle.setOnCheckedChangeListener(this);
 
         this.button = getPreferences(MODE_PRIVATE).getString("toggle",null);
 
@@ -122,7 +119,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 3 - Start Alarm
     private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-       manager.setRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,0,AlarmManager.INTERVAL_DAY, pendingIntent);
+       manager.setRepeating(AlarmManager.RTC_WAKEUP,times(19,00),AlarmManager.INTERVAL_DAY, pendingIntent);
         Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
 
     }
@@ -136,7 +133,6 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
 
     private void configureToolBar() {
-        this.toolbarNotifications = (Toolbar) findViewById(R.id.activity_notification_toolbar);
         setSupportActionBar(toolbarNotifications);
 
         final ActionBar actionBar = getSupportActionBar();
@@ -232,7 +228,6 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         calendar.set(Calendar.MINUTE, minute);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
-
 
         return calendar.getTimeInMillis();
     }

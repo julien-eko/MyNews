@@ -21,12 +21,16 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
-    private Toolbar toolbarSearch;
+
 
     private List<String> listChecked;
-    private Button searchButton;
-    private EditText editText;
+    @BindView(R.id.search_button) Button searchButton;
+    @BindView(R.id.search_query_term) EditText editText;
+    @BindView(R.id.activity_search_toolbar) Toolbar toolbarSearch;
     private static String beginDate="01/01/2019";
     private static String endDate=dateToday();
     private static Button beginDateButton;
@@ -37,6 +41,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
 
         this.configureToolBar();
 
@@ -45,8 +50,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             this.listChecked.add(null);
         }
 
-        this.searchButton = (Button) findViewById(R.id.search_button);
-        this.editText = (EditText) findViewById(R.id.search_query_term);
         this.beginDateButton = (Button) findViewById(R.id.begin_date_button);
         this.endDateButton = (Button) findViewById(R.id.end_date_button);
 
@@ -87,7 +90,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private void configureToolBar() {
-        this.toolbarSearch = (Toolbar) findViewById(R.id.activity_search_toolbar);
         setSupportActionBar(toolbarSearch);
 
         final ActionBar actionBar = getSupportActionBar();

@@ -36,15 +36,13 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class TopStoriesFragment extends Fragment {
 
-    // FOR DESIGN
-    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView; // 1 - Declare RecyclerView
-
     //FOR DATA
     private Disposable disposable;
     // 2 - Declare list of users (GithubUser) & Adapter
     private List<Article> list;
     private TimesAdapter adapter;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView;
 
     public TopStoriesFragment() { }
 

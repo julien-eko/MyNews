@@ -10,14 +10,18 @@ import android.webkit.WebView;
 
 import com.darcos.julie.mynews.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class WebViewActivity extends AppCompatActivity {
-    private Toolbar toolbarweb;
+
+    @BindView(R.id.activity_webview) Toolbar toolbarweb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
-
+        ButterKnife.bind(this);
         this.configureToolBar();
 
         WebView webView = findViewById(R.id.activity_main_webview);
@@ -25,7 +29,6 @@ public class WebViewActivity extends AppCompatActivity {
     }
 
     private void configureToolBar() {
-        this.toolbarweb = (Toolbar) findViewById(R.id.activity_webview);
         setSupportActionBar(toolbarweb);
 
         final ActionBar actionBar = getSupportActionBar();

@@ -37,9 +37,7 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class SearchFragment extends Fragment {
 
-    // FOR DESIGN
-    @BindView(R.id.fragment_main_recycler_view_search)
-    RecyclerView recyclerView; // 1 - Declare RecyclerView
+
 
     //FOR DATA
     private Disposable disposable;
@@ -49,10 +47,10 @@ public class SearchFragment extends Fragment {
     private String beginDate;
     private String endDate;
     private String querySearch;
-    @BindView(R.id.fragment_main_swipe_container_search)
-    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_swipe_container_search) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view_search) RecyclerView recyclerView;
 
-        private test mCallback;
+    private test mCallback;
 
     public interface test {
         public String beginDate ();

@@ -1,5 +1,6 @@
 package com.darcos.julie.mynews.Activities;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -7,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -18,19 +20,22 @@ import com.darcos.julie.mynews.Fragments.TopStoriesFragment;
 import com.darcos.julie.mynews.Views.PagerAdapter;
 import com.darcos.julie.mynews.R;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private Toolbar toolbar;
-    private DrawerLayout drawerLayout;
-    private NavigationView navigationView;
-    private ViewPager viewPager;
+    @BindView(R.id.activity_main_toolbar) Toolbar toolbar;
+    @BindView(R.id.activity_main_drawer_layout) DrawerLayout drawerLayout;
+    @BindView(R.id.activity_main_nav_view) NavigationView navigationView;
+    @BindView(R.id.activity_main_viewPager) ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        this.viewPager = (ViewPager) findViewById(R.id.activity_main_viewPager);
+        ButterKnife.bind(this);
         // 6 - Configure all views
 
         this.configureToolBar();
@@ -73,6 +78,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_notifications:
                 Intent intentNotification = new Intent(MainActivity.this, NotificationsActivity.class);
                 startActivity(intentNotification);
+                break;
+
+            case R.id.action_help:
+                this.help();
+                break;
+
+            case R.id.action_about:
+                this.about();
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -118,14 +131,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // 1 - Configure Toolbar
     private void configureToolBar() {
-        this.toolbar = (Toolbar) findViewById(R.id.activity_main_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("My News");
     }
 
     // 2 - Configure Drawer Layout
     private void configureDrawerLayout() {
-        this.drawerLayout = (DrawerLayout) findViewById(R.id.activity_main_drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -133,7 +144,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     // 3 - Configure NavigationView
     private void configureNavigationView() {
-        this.navigationView = (NavigationView) findViewById(R.id.activity_main_nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -143,5 +153,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         TabLayout tabs = (TabLayout) findViewById(R.id.activiy_main_tabLayout);
         tabs.setupWithViewPager(this.viewPager);
+    }
+
+    private void help(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("Help");
+        builder.setMessage("If you have a problem contact julien.darcos@gmail.com.");
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
+
+    private void about(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true);
+        builder.setTitle("About");
+        builder.setMessage("This application was created as part of a project for OpenClassrooms");
+        builder.setPositiveButton("Confirm",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

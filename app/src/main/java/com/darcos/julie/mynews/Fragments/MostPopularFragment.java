@@ -37,13 +37,14 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class MostPopularFragment extends Fragment {
 
-    // FOR DESIGN
-    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView; // 1 - Declare RecyclerView
+
 
     //FOR DATA
     private Disposable disposable;
     private List<Article> list;
     private TimesAdapter adapter;
+
+    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
 
     public MostPopularFragment() {

@@ -36,8 +36,7 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class SportsFragment extends Fragment {
 
-    // FOR DESIGN
-    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView; // 1 - Declare RecyclerView
+
 
     //FOR DATA
     private Disposable disposable;
@@ -45,6 +44,7 @@ public class SportsFragment extends Fragment {
     private List<Article> list;
     private TimesAdapter adapter;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView;
 
     public SportsFragment() { }
 
