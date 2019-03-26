@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(AndroidJUnit4.class)
 public class FragmentTest {
-/*
+
     @Test
     public void topStoriesTest() throws Exception {
         Observable<TopStories> obsTopStrories = TimesStreams.streamTopStories("food");
@@ -53,7 +53,7 @@ public class FragmentTest {
 
 
     public void ArticleSearchTest() throws Exception {
-        Observable<Search> obsSeartch = TimesStreams.streamSearch("sports","20190101","20190303");
+        Observable<Search> obsSeartch = TimesStreams.streamSearch("sports","news_desk:(\"Sports\" )","20190101","20190303");
 
         TestObserver<Search> testObserver = new TestObserver<>();
 
@@ -65,5 +65,5 @@ public class FragmentTest {
         Search test = testObserver.values().get(0);
         assertThat("status is ok",test.getStatus().equals("OK"));
     }
-    */
+
 }

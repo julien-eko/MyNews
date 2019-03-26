@@ -49,7 +49,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         for (int i = 0; i < 6; i++) {
             this.listChecked.add(null);
         }
-
+        
         this.beginDateButton = (Button) findViewById(R.id.begin_date_button);
         this.endDateButton = (Button) findViewById(R.id.end_date_button);
 

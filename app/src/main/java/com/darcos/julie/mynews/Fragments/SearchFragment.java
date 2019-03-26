@@ -2,10 +2,12 @@ package com.darcos.julie.mynews.Fragments;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.darcos.julie.mynews.Activities.ResultSearch;
+import com.darcos.julie.mynews.Activities.SearchActivity;
 import com.darcos.julie.mynews.Activities.WebViewActivity;
 import com.darcos.julie.mynews.Models.Article;
 import com.darcos.julie.mynews.Models.ArticleList;
@@ -38,7 +42,6 @@ import io.reactivex.observers.DisposableObserver;
 public class SearchFragment extends Fragment {
 
 
-
     //FOR DATA
     private Disposable disposable;
     // 2 - Declare list of users (GithubUser) & Adapter
@@ -48,16 +51,21 @@ public class SearchFragment extends Fragment {
     private String endDate;
     private String querySearch;
     private String newsDesk;
-    @BindView(R.id.fragment_main_swipe_container_search) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.fragment_main_recycler_view_search) RecyclerView recyclerView;
+    @BindView(R.id.fragment_main_swipe_container_search)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view_search)
+    RecyclerView recyclerView;
 
     private test mCallback;
 
     public interface test {
-        public String beginDate ();
-        public String endDate ();
-        public String querySearch ();
-        public String newsDesk ();
+        public String beginDate();
+
+        public String endDate();
+
+        public String querySearch();
+
+        public String newsDesk();
     }
 
 
@@ -74,11 +82,10 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
-        this.beginDate=mCallback.beginDate();
-        this.endDate= mCallback.endDate();
-        this.querySearch=mCallback.querySearch();
-        this.newsDesk=mCallback.newsDesk();
-
+        this.beginDate = mCallback.beginDate();
+        this.endDate = mCallback.endDate();
+        this.querySearch = mCallback.querySearch();
+        this.newsDesk = mCallback.newsDesk();
 
 
         this.configureRecyclerView(); // - 4 Call during UI creation
@@ -109,12 +116,12 @@ public class SearchFragment extends Fragment {
     // --------------
 
     // 3 - Create callback to parent activity
-    private void createCallbackToParentActivity(){
+    private void createCallbackToParentActivity() {
         try {
             //Parent activity will automatically subscribe to callback
             mCallback = (test) getActivity();
         } catch (ClassCastException e) {
-            throw new ClassCastException(e.toString()+ " must implement OnButtonClickedListener");
+            throw new ClassCastException(e.toString() + " must implement OnButtonClickedListener");
         }
     }
 
@@ -171,11 +178,19 @@ public class SearchFragment extends Fragment {
 
     private void executeHttpRequestWithRetrofit() {
 
-        this.disposable = TimesStreams.streamSearch(querySearch,newsDesk, beginDate, endDate).subscribeWith(new DisposableObserver<Search>() {
+        this.disposable = TimesStreams.streamSearch(querySearch, newsDesk, beginDate, endDate).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search articles) {
                 // 6 - Update RecyclerView after getting results from Github API
-                updateUI(articles);
+                int i = articles.getResponse().getMeta().getHits();
+
+
+                if (i == 0) {
+                    noArticle();
+
+                } else {
+                    updateUI(articles);
+                }
             }
 
             @Override
@@ -203,5 +218,21 @@ public class SearchFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    private void noArticle() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setCancelable(true);
+        builder.setTitle("No articles found");
+        builder.setMessage("Try to change the parameters of your search");
+        builder.setPositiveButton("ok",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent(SearchFragment.this.getContext(), SearchActivity.class);
+                        startActivity(intent);
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 }
 

@@ -91,8 +91,6 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
 
     public String endDate(){
         String end=getIntent().getStringExtra("endDate");
-        Toast.makeText(this, end,
-                Toast.LENGTH_LONG).show();
         if(end == null){
             final Calendar c = Calendar.getInstance();
             int yearI = c.get(Calendar.YEAR);
