@@ -26,7 +26,7 @@ public interface TimesService {
         Observable<MostPopular> getMostPopular();
 
         @GET("svc/search/v2/articlesearch.json?api-key=JyNdblyOMqqNNknG0iu5INNajfu1wAyj")
-        Observable<Search> getSearch(@Query("q") String queryTerm, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
+        Observable<Search> getSearch(@Query("q") String queryTerm,@Query("fq") String newsDesk, @Query("begin_date") String beginDate, @Query("end_date") String endDate);
 
 
 

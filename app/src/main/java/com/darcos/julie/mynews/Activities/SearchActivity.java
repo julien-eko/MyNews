@@ -69,7 +69,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         Intent intent = new Intent(SearchActivity.this, ResultSearch.class);
         intent.putExtra("beginDate", beginDate);
         intent.putExtra("endDate", endDate);
-        intent.putExtra("query", queryShearch());
+        intent.putExtra("query", editText.getText().toString());
+        intent.putExtra("newsDesk",newsDesk());
         startActivity(intent);
     }
 
@@ -163,17 +164,19 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    public String queryShearch() {
+    public String newsDesk() {
         String q;
-        q = editText.getText().toString();
+        q = "news_desk:(";
 
         for (int i = 0; i < this.listChecked.size(); i++) {
             if (this.listChecked.get(i) == null) {
 
             } else {
-                q = q + "&" + this.listChecked.get(i);
+                q = q + "\"" + this.listChecked.get(i) + "\" ";
             }
         }
+
+        q=q + ")";
         return q;
     }
 

@@ -122,4 +122,8 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         String query=getIntent().getStringExtra("query");
         return query;
     }
+    public String newsDesk(){
+        String newsDesk = getIntent().getStringExtra("newsDesk");
+        return newsDesk;
+    }
 }

@@ -26,6 +26,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
 
     private Disposable disposable;
     private String querySearch;
+    private String newsDesk;
     private String notificationText;
     private Context context;
 
@@ -33,6 +34,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         this.context=context;
         this.querySearch=intent.getStringExtra("queryShearch");
+        this.newsDesk=intent.getStringExtra("newsDesk");
         this.executeHttpRequestWithRetrofit();
 
 
@@ -44,7 +46,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
 
     private void executeHttpRequestWithRetrofit() {
 
-        this.disposable = TimesStreams.streamSearch(querySearch,dateToday(), dateToday()).subscribeWith(new DisposableObserver<Search>() {
+        this.disposable = TimesStreams.streamSearch(querySearch,newsDesk,dateToday(), dateToday()).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search articles) {
                 int i = articles.getResponse().getMeta().getHits();

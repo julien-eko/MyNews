@@ -29,9 +29,9 @@ public class TimesStreams {
                 .timeout(10, TimeUnit.SECONDS);
     }
 
-    public  static Observable<Search> streamSearch(String queryTerm, String beginDate, String endDate){
+    public  static Observable<Search> streamSearch(String queryTerm,String newsDesk, String beginDate, String endDate){
         TimesService timesService = TimesService.retrofit.create(TimesService.class);
-        return timesService.getSearch(queryTerm,beginDate,endDate)
+        return timesService.getSearch(queryTerm,newsDesk,beginDate,endDate)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .timeout(10, TimeUnit.SECONDS);

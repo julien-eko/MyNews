@@ -47,6 +47,7 @@ public class SearchFragment extends Fragment {
     private String beginDate;
     private String endDate;
     private String querySearch;
+    private String newsDesk;
     @BindView(R.id.fragment_main_swipe_container_search) SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.fragment_main_recycler_view_search) RecyclerView recyclerView;
 
@@ -56,6 +57,7 @@ public class SearchFragment extends Fragment {
         public String beginDate ();
         public String endDate ();
         public String querySearch ();
+        public String newsDesk ();
     }
 
 
@@ -75,6 +77,7 @@ public class SearchFragment extends Fragment {
         this.beginDate=mCallback.beginDate();
         this.endDate= mCallback.endDate();
         this.querySearch=mCallback.querySearch();
+        this.newsDesk=mCallback.newsDesk();
 
 
 
@@ -168,7 +171,7 @@ public class SearchFragment extends Fragment {
 
     private void executeHttpRequestWithRetrofit() {
 
-        this.disposable = TimesStreams.streamSearch(querySearch, beginDate, endDate).subscribeWith(new DisposableObserver<Search>() {
+        this.disposable = TimesStreams.streamSearch(querySearch,newsDesk, beginDate, endDate).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search articles) {
                 // 6 - Update RecyclerView after getting results from Github API

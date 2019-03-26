@@ -108,7 +108,8 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 2 - Configuring the AlarmManager
     private void configureAlarmManager() {
         Intent alarmIntent = new Intent(NotificationsActivity.this, MyAlarmReceiver.class);
-            alarmIntent.putExtra("queryShearch",queryShearch());
+            alarmIntent.putExtra("queryShearch",editText.getText().toString());
+            alarmIntent.putExtra("newsDesk",newsDesk());
 
         pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -119,7 +120,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // 3 - Start Alarm
     private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-       manager.setRepeating(AlarmManager.RTC_WAKEUP,times(19,00),AlarmManager.INTERVAL_DAY, pendingIntent);
+       manager.setRepeating(AlarmManager.RTC_WAKEUP,0,10, pendingIntent);
         Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
 
     }
@@ -233,17 +234,19 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     }
 
 
-    public String queryShearch() {
+    public String newsDesk() {
         String q;
-        q = editText.getText().toString();
+        q = "news_desk:(";
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < this.listCheckedNotification.size(); i++) {
             if (this.listCheckedNotification.get(i) == null) {
 
             } else {
-                q = q + "&" + this.listCheckedNotification.get(i);
+                q = q + "\"" + this.listCheckedNotification.get(i) + "\" ";
             }
         }
+
+        q=q + ")";
         return q;
     }
 
