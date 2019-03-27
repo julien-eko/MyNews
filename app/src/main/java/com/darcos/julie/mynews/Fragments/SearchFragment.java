@@ -51,14 +51,13 @@ public class SearchFragment extends Fragment {
     private String endDate;
     private String querySearch;
     private String newsDesk;
-    @BindView(R.id.fragment_main_swipe_container_search)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.fragment_main_recycler_view_search)
-    RecyclerView recyclerView;
+    @BindView(R.id.fragment_main_swipe_container_search) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view_search) RecyclerView recyclerView;
 
-    private test mCallback;
+    private callback mCallback;
 
-    public interface test {
+    // interface callback to retrieve value entered by the user
+    public interface callback {
         public String beginDate();
 
         public String endDate();
@@ -82,18 +81,19 @@ public class SearchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         ButterKnife.bind(this, view);
+        //initializes with callback
         this.beginDate = mCallback.beginDate();
         this.endDate = mCallback.endDate();
         this.querySearch = mCallback.querySearch();
         this.newsDesk = mCallback.newsDesk();
 
-
-        this.configureRecyclerView(); // - 4 Call during UI creation
-        this.executeHttpRequestWithRetrofit(); // 5 - Execute stream after UI creation
-        // 4 - Configure the SwipeRefreshLayout
+        //Call during UI creation
+        this.configureRecyclerView();
+        //Execute stream after UI creation
+        this.executeHttpRequestWithRetrofit();
+        // Configure the SwipeRefreshLayout
         this.configureSwipeRefreshLayout();
         this.configureOnClickRecyclerView();
-
 
         return view;
     }
@@ -102,24 +102,16 @@ public class SearchFragment extends Fragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-        // 4 - Call the method that creating callback after being attached to parent activity
+        //Call the method that creating callback after being attached to parent activity
         this.createCallbackToParentActivity();
     }
 
-    // --------------
-    // ACTIONS
-    // --------------
 
-
-    // --------------
-    // FRAGMENT SUPPORT
-    // --------------
-
-    // 3 - Create callback to parent activity
+    // Create callback to parent activity
     private void createCallbackToParentActivity() {
         try {
             //Parent activity will automatically subscribe to callback
-            mCallback = (test) getActivity();
+            mCallback = (callback) getActivity();
         } catch (ClassCastException e) {
             throw new ClassCastException(e.toString() + " must implement OnButtonClickedListener");
         }
@@ -131,7 +123,7 @@ public class SearchFragment extends Fragment {
         this.disposeWhenDestroy();
     }
 
-    // 2 - Configure the SwipeRefreshLayout
+    // Configure the SwipeRefreshLayout
     private void configureSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -141,6 +133,7 @@ public class SearchFragment extends Fragment {
         });
     }
 
+    // when user click on article open on a webView
     private void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_article_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -156,19 +149,16 @@ public class SearchFragment extends Fragment {
                     }
                 });
     }
-    // -----------------
-    // CONFIGURATION
-    // -----------------
 
     // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView() {
-        // 3.1 - Reset list
+        //Reset list
         this.list = new ArrayList<>();
-        // 3.2 - Create adapter passing the list of users
+        //Create adapter passing the list of users
         this.adapter = new TimesAdapter(this.list, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
+        //Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
+        //Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -181,10 +171,10 @@ public class SearchFragment extends Fragment {
         this.disposable = TimesStreams.streamSearch(querySearch, newsDesk, beginDate, endDate).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search articles) {
-                // 6 - Update RecyclerView after getting results from Github API
+                //number of article return by api
                 int i = articles.getResponse().getMeta().getHits();
 
-
+                //if 0 article
                 if (i == 0) {
                     noArticle();
 
@@ -195,6 +185,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
+                Log.e("TAG","Error SearchFragment "+Log.getStackTraceString(e));
             }
 
             @Override
@@ -207,10 +198,7 @@ public class SearchFragment extends Fragment {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    // -------------------
-    // UPDATE UI
-    // -------------------
-
+    //updateUI with  list of article
     private void updateUI(Search articles) {
         swipeRefreshLayout.setRefreshing(false);
         this.list.clear();
@@ -218,6 +206,7 @@ public class SearchFragment extends Fragment {
         adapter.notifyDataSetChanged();
     }
 
+    //if no article show popup
     private void noArticle() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setCancelable(true);

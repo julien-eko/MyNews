@@ -36,9 +36,9 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
 
     private List<String> listCheckedNotification;
-    // 1 - Creating an intent to execute our broadcast
     private PendingIntent pendingIntent;
     private String button;
+
     @BindView(R.id.checkbox_arts) CheckBox checkBoxArts;
     @BindView(R.id.checkbox_politics) CheckBox checkBoxPolitics;
     @BindView(R.id.checkbox_business) CheckBox checkBoxBusiness;
@@ -56,16 +56,16 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         ButterKnife.bind(this);
 
         this.configureToolBar();
+
         this.configureCheckbox();
+
         this.configureAlarmManager();
-        this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit",null));
-
-
 
         this.toggle.setOnCheckedChangeListener(this);
 
+        //initialize with the last backups
+        this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit",null));
         this.button = getPreferences(MODE_PRIVATE).getString("toggle",null);
-
 
         if(this.button.equals("checked")){
             toggle.setChecked(true);
@@ -73,11 +73,9 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
             toggle.setChecked(false);
         }
 
-
-
-
     }
 
+    //save information for the next launch of the activity
     @Override
     public void onStop() {
         super.onStop();
@@ -90,22 +88,19 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     }
 
 
-
+    //button for enable or disable notification
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             startAlarm();
             this.button="checked";
-            // The toggle is enabled
-            //Toast.makeText(NotificationsActivity.this, "ok", Toast.LENGTH_LONG).show();
         } else {
             stopAlarm();
             this.button="";
-            // The toggle is disabled
-            // Toast.makeText(NotificationsActivity.this, editText.getText().toString(), Toast.LENGTH_LONG).show();
         }
     }
-    // 2 - Configuring the AlarmManager
+
+    //Configuring the AlarmManager and save inforpation in intent for notification message
     private void configureAlarmManager() {
         Intent alarmIntent = new Intent(NotificationsActivity.this, MyAlarmReceiver.class);
             alarmIntent.putExtra("queryShearch",editText.getText().toString());
@@ -113,11 +108,9 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
         pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
-    // ---------------------------------------------
-    // SCHEDULE TASK (AlarmManager & JobScheduler)
-    // ---------------------------------------------
 
-    // 3 - Start Alarm
+
+    // Start Alarm at 19:00 and repeat all day if actived
     private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
        manager.setRepeating(AlarmManager.RTC_WAKEUP,times(19,00),AlarmManager.INTERVAL_DAY, pendingIntent);
@@ -125,14 +118,14 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
     }
 
-    // 4 - Stop Alarm
+    // Stop Alarm
     private void stopAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
         Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
     }
 
-
+    //configure toolbar
     private void configureToolBar() {
         setSupportActionBar(toolbarNotifications);
 
@@ -142,6 +135,17 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         actionBar.setTitle("Notifications");
     }
 
+    //configure button return of toolbar
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        Intent intent = new Intent(NotificationsActivity.this, MainActivity.class);
+        startActivity(intent);
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    //check or uncheck checkbox with last save
     private void configureCheckbox(){
         this.listCheckedNotification = new ArrayList<>();
         for(int i=0;i<6;i++) {
@@ -168,15 +172,9 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
             this.checkBoxTravels.setChecked(true);
         }
     }
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        Intent intent = new Intent(NotificationsActivity.this, MainActivity.class);
-        startActivity(intent);
 
-        return super.onOptionsItemSelected(item);
-    }
-
+    //on click change value of listCheckedNotification and configure alarm
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 
@@ -223,6 +221,12 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         this.configureAlarmManager();
     }
 
+    /**
+     * use for choose times of notification
+     * @param hours chosse your hours
+     * @param minute choose your minutes
+     * @return time in millis
+     */
     private long times(int hours, int minute) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, hours);
@@ -233,7 +237,10 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         return calendar.getTimeInMillis();
     }
 
-
+    /**
+     * formating list for apiShearch
+     * @return newsDesk for apiShearch
+     */
     public String newsDesk() {
         String q;
         q = "news_desk:(";

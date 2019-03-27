@@ -22,6 +22,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class FragmentTest {
 
+    //test api TopStories
     @Test
     public void topStoriesTest() throws Exception {
         Observable<TopStories> obsTopStrories = TimesStreams.streamTopStories("food");
@@ -37,6 +38,7 @@ public class FragmentTest {
         assertThat("status is ok",test.getStatus().equals("OK"));
     }
 
+    //test MostPopular api
     public void MostPopularTest() throws Exception {
         Observable<MostPopular> obsMostPopular = TimesStreams.streamMostPopular();
 
@@ -51,7 +53,7 @@ public class FragmentTest {
         assertThat("status is ok",test.getStatus().equals("OK"));
     }
 
-
+    //test api Search
     public void ArticleSearchTest() throws Exception {
         Observable<Search> obsSeartch = TimesStreams.streamSearch("sports","news_desk:(\"Sports\" )","20190101","20190303");
 

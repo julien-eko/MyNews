@@ -37,9 +37,6 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class MostPopularFragment extends Fragment {
 
-
-
-    //FOR DATA
     private Disposable disposable;
     private List<Article> list;
     private TimesAdapter adapter;
@@ -55,9 +52,11 @@ public class MostPopularFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_article, container, false);
         ButterKnife.bind(this, view);
-        this.configureRecyclerView(); // - 4 Call during UI creation
-        this.executeHttpRequestWithRetrofit(); // 5 - Execute stream after UI creation
-        // 4 - Configure the SwipeRefreshLayout
+        //Call during UI creation
+        this.configureRecyclerView();
+        //  Execute stream after UI creation
+        this.executeHttpRequestWithRetrofit();
+        //  Configure the SwipeRefreshLayout
         this.configureSwipeRefreshLayout();
         this.configureOnClickRecyclerView();
 
@@ -70,7 +69,7 @@ public class MostPopularFragment extends Fragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
-    // 2 - Configure the SwipeRefreshLayout
+    // Configure the SwipeRefreshLayout
     private void configureSwipeRefreshLayout(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -80,6 +79,7 @@ public class MostPopularFragment extends Fragment {
         });
     }
 
+    // when user click on article open on a webView
     private void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_article_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -95,19 +95,16 @@ public class MostPopularFragment extends Fragment {
                     }
                 });
     }
-    // -----------------
-    // CONFIGURATION
-    // -----------------
 
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
+    // Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
-        // 3.1 - Reset list
+        //Reset list
         this.list =new ArrayList<>();
-        // 3.2 - Create adapter passing the list of users
+        //Create adapter passing the list of users
         this.adapter = new TimesAdapter(this.list, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
+        //Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
+        //Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -125,7 +122,7 @@ public class MostPopularFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG","On Error"+Log.getStackTraceString(e));
+                Log.e("TAG","Error MostPopularFragment "+Log.getStackTraceString(e));
             }
 
             @Override
@@ -138,10 +135,7 @@ public class MostPopularFragment extends Fragment {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    // -------------------
-    // UPDATE UI
-    // -------------------
-
+    //update UI whith list of article MostPopular
     private void updateUI(MostPopular articles){
 
         swipeRefreshLayout.setRefreshing(false);

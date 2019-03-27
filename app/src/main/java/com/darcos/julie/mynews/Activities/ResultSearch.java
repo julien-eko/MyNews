@@ -17,7 +17,7 @@ import java.util.Calendar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ResultSearch extends AppCompatActivity implements SearchFragment.test {
+public class ResultSearch extends AppCompatActivity implements SearchFragment.callback {
 
     @BindView(R.id.activity_search_result_toolbar) Toolbar toolbarSearch;
 
@@ -26,10 +26,12 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_search);
         ButterKnife.bind(this);
+
         this.configureToolBar();
 
     }
 
+    //Configure toolbar
     private void configureToolBar() {
         setSupportActionBar(toolbarSearch);
 
@@ -39,7 +41,7 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         actionBar.setTitle("Articles");
     }
 
-
+    //button return in toolbar
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -49,6 +51,11 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * formatin date
+     * @param date dd/mm/yyyy
+     * @return yyyymmdd
+     */
     public static String converDate (String date){
         String year="";
         String month="";
@@ -78,7 +85,10 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         return date;
     }
 
-
+    /**
+     * begin date choose by the user if no choice return 1 janury 2019
+     * @return begin date
+     */
     public String beginDate(){
         String begin=getIntent().getStringExtra("beginDate");
         if(begin == null){
@@ -89,6 +99,11 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         return begin;
     }
 
+    /**
+     *
+     * @return end date chose by the user
+     * if no choice return date of the day
+     */
     public String endDate(){
         String end=getIntent().getStringExtra("endDate");
         if(end == null){
@@ -116,10 +131,19 @@ public class ResultSearch extends AppCompatActivity implements SearchFragment.te
         return end;
     }
 
+    /**
+     *
+     * @return query
+     */
     public String querySearch(){
         String query=getIntent().getStringExtra("query");
         return query;
     }
+
+    /**
+     *
+     * @return list of newsDesk checked by user in the format String
+     */
     public String newsDesk(){
         String newsDesk = getIntent().getStringExtra("newsDesk");
         return newsDesk;

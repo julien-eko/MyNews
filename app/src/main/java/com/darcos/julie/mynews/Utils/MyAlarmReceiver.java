@@ -37,39 +37,35 @@ public class MyAlarmReceiver extends BroadcastReceiver {
         this.newsDesk=intent.getStringExtra("newsDesk");
         this.executeHttpRequestWithRetrofit();
 
-
-
-
-        //Toast.makeText(context, intent.getStringExtra("queryShearch"), Toast.LENGTH_SHORT).show();
-
     }
 
+    //Api Shearch for found nulber of article pusblied today
     private void executeHttpRequestWithRetrofit() {
 
         this.disposable = TimesStreams.streamSearch(querySearch,newsDesk,dateToday(), dateToday()).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search articles) {
+                //nulber of article
                 int i = articles.getResponse().getMeta().getHits();
-
                 notificationText=Integer.toString(i)+" articles have been published today";
-
-
             }
 
             @Override
             public void onError(Throwable e) {
             }
-
+            //createNotification
             @Override
             public void onComplete() {
                 createNotificationChannel();
-
             }
         });
     }
 
 
-
+    /**
+     * formating date of the day for api
+     * @return date of the day
+     */
     public String dateToday() {
 
         final Calendar c = Calendar.getInstance();
@@ -91,6 +87,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
         return (y+m+d);
     }
 
+    //Create notification
     private void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
@@ -112,6 +109,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
                     .build();
             notificationManager.notify(1,notification);
         }
+        //for api no suport notification channel
         else{
             Notification notification = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.news)

@@ -28,11 +28,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
 
     private List<String> listChecked;
-    @BindView(R.id.search_button) Button searchButton;
-    @BindView(R.id.search_query_term) EditText editText;
-    @BindView(R.id.activity_search_toolbar) Toolbar toolbarSearch;
-    private static String beginDate="01/01/2019";
-    private static String endDate=dateToday();
+    @BindView(R.id.search_button)
+    Button searchButton;
+    @BindView(R.id.search_query_term)
+    EditText editText;
+    @BindView(R.id.activity_search_toolbar)
+    Toolbar toolbarSearch;
+    private static String beginDate = "01/01/2019";
+    private static String endDate = dateToday();
     private static Button beginDateButton;
     private static Button endDateButton;
 
@@ -45,51 +48,48 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         this.configureToolBar();
 
+        //initializes list
         this.listChecked = new ArrayList<>();
         for (int i = 0; i < 6; i++) {
             this.listChecked.add(null);
         }
-        
+
         this.beginDateButton = (Button) findViewById(R.id.begin_date_button);
         this.endDateButton = (Button) findViewById(R.id.end_date_button);
-
-        searchButton.setOnClickListener(this);
-
-        searchButton.setEnabled(false);
-
         beginDateButton.setText(beginDate);
         endDateButton.setText(endDate);
 
+        //disable button (no checkbox checked)
+        searchButton.setOnClickListener(this);
+        searchButton.setEnabled(false);
 
     }
 
-
+    //start Result activity
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(SearchActivity.this, ResultSearch.class);
+        //information for api shearch
         intent.putExtra("beginDate", beginDate);
         intent.putExtra("endDate", endDate);
         intent.putExtra("query", editText.getText().toString());
-        intent.putExtra("newsDesk",newsDesk());
+        intent.putExtra("newsDesk", newsDesk());
         startActivity(intent);
     }
 
+    //button edit begin date (default: 01/01/2019)
     public void showDatePickerDialogBegin(View v) {
         DialogFragment newFragment = new DatePickerFragment();
-
         newFragment.show(getSupportFragmentManager(), "begin");
-
-
     }
 
+    //button edit end date (default: date of the day)
     public void showDatePickerDialogEnd(View v) {
         DialogFragment newFragment = new DatePickerFragment();
-
         newFragment.show(getSupportFragmentManager(), "end");
-
     }
 
-
+    //configure toolbar
     private void configureToolBar() {
         setSupportActionBar(toolbarSearch);
 
@@ -99,7 +99,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         actionBar.setTitle("Search Articles");
     }
 
-
+    //button return
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
@@ -109,7 +109,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         return super.onOptionsItemSelected(item);
     }
 
-
+    //edit lsitChecked and disable or enable button search
     public void onCheckboxClicked(View view) {
         boolean checked = ((CheckBox) view).isChecked();
 
@@ -119,8 +119,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     this.listChecked.set(0, "arts");
                 else
                     this.listChecked.set(0, null);
-
-
                 break;
 
             case R.id.checkbox_politics:
@@ -128,7 +126,6 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     this.listChecked.set(1, "politics");
                 else
                     this.listChecked.set(1, null);
-
                 break;
 
             case R.id.checkbox_business:
@@ -164,6 +161,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
+    /**
+     * formating newDesk for api Search
+     * @return newDesk for api Search
+     */
     public String newsDesk() {
         String q;
         q = "news_desk:(";
@@ -176,11 +177,14 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             }
         }
 
-        q=q + ")";
+        q = q + ")";
         return q;
     }
 
-
+    /**
+     * check if there is at least one category selected
+     * @return true if button enable or else if disable
+     */
     public boolean buttonenable() {
         int j = 0;
         for (int i = 0; i < this.listChecked.size(); i++) {
@@ -196,6 +200,10 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
         }
     }
 
+    /**
+     * date of the day
+     * @return dd/mm/yyyy
+     */
     public static String dateToday() {
 
         final Calendar c = Calendar.getInstance();
@@ -216,22 +224,22 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
         return (d + "/" + m + "/" + y);
 
-
     }
 
-    public static String getBeginDate() {
-        return beginDate;
-    }
 
+    /**
+     * update begindate and change text of button beginddate
+     * @param date chosen by user
+     */
     public static void setBeginDate(String date) {
         beginDate = date;
         beginDateButton.setText(beginDate);
     }
 
-    public static String getEndDate() {
-        return endDate;
-    }
-
+    /**
+     * update enddate and change text of button endddate
+     * @param date chosen by user
+     */
     public static void setEndDate(String date) {
         endDate = date;
         endDateButton.setText(endDate);

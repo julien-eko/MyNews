@@ -36,11 +36,7 @@ import io.reactivex.observers.DisposableObserver;
  */
 public class SportsFragment extends Fragment {
 
-
-
-    //FOR DATA
     private Disposable disposable;
-    // 2 - Declare list of users (GithubUser) & Adapter
     private List<Article> list;
     private TimesAdapter adapter;
     @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
@@ -52,12 +48,13 @@ public class SportsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_list_article, container, false);
         ButterKnife.bind(this, view);
-        this.configureRecyclerView(); // - 4 Call during UI creation
-        this.executeHttpRequestWithRetrofit(); // 5 - Execute stream after UI creation
-        // 4 - Configure the SwipeRefreshLayout
+        //Call during UI creation
+        this.configureRecyclerView();
+        //Execute stream after UI creation
+        this.executeHttpRequestWithRetrofit();
+        //Configure the SwipeRefreshLayout
         this.configureSwipeRefreshLayout();
         this.configureOnClickRecyclerView();
-
 
         return view;
     }
@@ -67,7 +64,7 @@ public class SportsFragment extends Fragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
-    // 2 - Configure the SwipeRefreshLayout
+    //Configure the SwipeRefreshLayout
     private void configureSwipeRefreshLayout(){
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -77,6 +74,7 @@ public class SportsFragment extends Fragment {
         });
     }
 
+    // when user click on article open on a webView
     private void configureOnClickRecyclerView(){
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_article_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
@@ -92,19 +90,16 @@ public class SportsFragment extends Fragment {
                     }
                 });
     }
-    // -----------------
-    // CONFIGURATION
-    // -----------------
 
-    // 3 - Configure RecyclerView, Adapter, LayoutManager & glue it together
+    //Configure RecyclerView, Adapter, LayoutManager & glue it together
     private void configureRecyclerView(){
-        // 3.1 - Reset list
+        //Reset list
         this.list =new ArrayList<>();
-        // 3.2 - Create adapter passing the list of users
+        //Create adapter passing the list of users
         this.adapter = new TimesAdapter(this.list, Glide.with(this));
-        // 3.3 - Attach the adapter to the recyclerview to populate items
+        //Attach the adapter to the recyclerview to populate items
         this.recyclerView.setAdapter(this.adapter);
-        // 3.4 - Set layout manager to position the items
+        //Set layout manager to position the items
         this.recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
     }
 
@@ -116,12 +111,13 @@ public class SportsFragment extends Fragment {
         this.disposable = TimesStreams.streamTopStories("sports").subscribeWith(new DisposableObserver<TopStories>() {
             @Override
             public void onNext(TopStories articles) {
-                // 6 - Update RecyclerView after getting results from Github API
                 updateUI(articles);
             }
 
             @Override
-            public void onError(Throwable e) { }
+            public void onError(Throwable e) {
+                Log.e("TAG","Error SportsFragment "+Log.getStackTraceString(e));
+            }
 
             @Override
             public void onComplete() { }
@@ -132,10 +128,7 @@ public class SportsFragment extends Fragment {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
-    // -------------------
-    // UPDATE UI
-    // -------------------
-
+    //update with list of sports aticles
     private void updateUI(TopStories articles){
         swipeRefreshLayout.setRefreshing(false);
         this.list.clear();

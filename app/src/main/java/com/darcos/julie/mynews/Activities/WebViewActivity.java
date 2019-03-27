@@ -13,9 +13,13 @@ import com.darcos.julie.mynews.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+/**
+ * this class use when user click on article and open a webview for read article
+ */
 public class WebViewActivity extends AppCompatActivity {
 
     @BindView(R.id.activity_webview) Toolbar toolbarweb;
+    @BindView(R.id.activity_main_webview) WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,10 +28,10 @@ public class WebViewActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         this.configureToolBar();
 
-        WebView webView = findViewById(R.id.activity_main_webview);
         webView.loadUrl(getIntent().getStringExtra("url"));
     }
 
+    //configure toolbar
     private void configureToolBar() {
         setSupportActionBar(toolbarweb);
 
@@ -37,7 +41,7 @@ public class WebViewActivity extends AppCompatActivity {
         actionBar.setTitle(getIntent().getStringExtra("title"));
     }
 
-
+    //button return
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

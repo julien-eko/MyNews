@@ -14,9 +14,6 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-
-import com.darcos.julie.mynews.Fragments.MostPopularFragment;
-import com.darcos.julie.mynews.Fragments.TopStoriesFragment;
 import com.darcos.julie.mynews.Views.PagerAdapter;
 import com.darcos.julie.mynews.R;
 
@@ -26,17 +23,23 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    @BindView(R.id.activity_main_toolbar) Toolbar toolbar;
-    @BindView(R.id.activity_main_drawer_layout) DrawerLayout drawerLayout;
-    @BindView(R.id.activity_main_nav_view) NavigationView navigationView;
-    @BindView(R.id.activity_main_viewPager) ViewPager viewPager;
+
+    //declare the different view
+    @BindView(R.id.activity_main_toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.activity_main_drawer_layout)
+    DrawerLayout drawerLayout;
+    @BindView(R.id.activity_main_nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.activity_main_viewPager)
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         ButterKnife.bind(this);
-        // 6 - Configure all views
 
         this.configureToolBar();
 
@@ -50,14 +53,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //ajoute les entrées de menu_test à l'ActionBar
         getMenuInflater().inflate(R.menu.activity_main_toolbar, menu);
         return true;
     }
 
     @Override
     public void onBackPressed() {
-        // 5 - Handle back click to close menu
+        // Handle back click to close menu
         if (this.drawerLayout.isDrawerOpen(GravityCompat.START)) {
             this.drawerLayout.closeDrawer(GravityCompat.START);
         } else {
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
+
+    //toolbar button click(searsh, notification,help and about)
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -91,10 +95,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return super.onOptionsItemSelected(item);
     }
 
+    //navigation drawer
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        // 4 - Handle Navigation Item Click
         int id = item.getItemId();
 
         switch (id) {
@@ -129,24 +133,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     // CONFIGURATION
     // ---------------------
 
-    // 1 - Configure Toolbar
+    // Configure Toolbar
     private void configureToolBar() {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("My News");
     }
 
-    // 2 - Configure Drawer Layout
+    //Configure Drawer Layout
     private void configureDrawerLayout() {
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 
-    // 3 - Configure NavigationView
+    //Configure NavigationView
     private void configureNavigationView() {
         navigationView.setNavigationItemSelectedListener(this);
     }
-
+    //Configure ViewPager
     private void configureViewPager() {
 
         this.viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
@@ -155,7 +159,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabs.setupWithViewPager(this.viewPager);
     }
 
-    private void help(){
+    // when click on help open pop up
+    private void help() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("Help");
@@ -169,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AlertDialog dialog = builder.create();
         dialog.show();
     }
-
-    private void about(){
+    // when clik on about open a new pop up
+    private void about() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true);
         builder.setTitle("About");

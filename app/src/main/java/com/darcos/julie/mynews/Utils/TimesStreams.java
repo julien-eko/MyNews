@@ -3,9 +3,7 @@ package com.darcos.julie.mynews.Utils;
 import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
 import com.darcos.julie.mynews.Models.Search.Search;
 import com.darcos.julie.mynews.Models.TopStories.TopStories;
-
 import java.util.concurrent.TimeUnit;
-
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;

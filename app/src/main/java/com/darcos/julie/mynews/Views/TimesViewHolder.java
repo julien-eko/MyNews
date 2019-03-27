@@ -26,6 +26,7 @@ public class TimesViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
+    //update view
     public void updateWithTimesUser(Article article, RequestManager glide) {
 
         this.textView.setText(article.getTitle());

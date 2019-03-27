@@ -3,12 +3,20 @@ package com.darcos.julie.mynews.Models;
 import com.darcos.julie.mynews.Models.TopStories.Result;
 import com.darcos.julie.mynews.R;
 
+/**
+ * getter and setteur of varaible of articles
+ */
 public class Article {
 
+    // "section" or "section>subsection"
     private String title;
+    // title of article
     private String resume;
+    //dd/mm/yyyy published date
     private String date;
+    //url of article
     private String url;
+    //image url
     private String image;
 
 

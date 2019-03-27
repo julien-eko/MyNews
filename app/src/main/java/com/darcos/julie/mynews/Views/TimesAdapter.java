@@ -14,7 +14,7 @@ import com.darcos.julie.mynews.R;
 import java.util.List;
 
 public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
-    // FOR DATA
+
     private List<Article> list;
     private RequestManager glide;
 
@@ -35,7 +35,7 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
         return new TimesViewHolder(view);
     }
 
-    // UPDATE VIEW HOLDER WITH A GITHUBUSER
+    // UPDATE VIEW
     @Override
     public void onBindViewHolder(TimesViewHolder viewHolder, int position) {
         viewHolder.updateWithTimesUser(this.list.get(position),this.glide);

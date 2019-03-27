@@ -10,6 +10,7 @@ import com.darcos.julie.mynews.Fragments.TopStoriesFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
+    //page of viewPager
     private final String tabTitles[] =new String[]{"Top Stories","Most popular","Sport"};
     private final int PAGE_COUNT = 3;
 
@@ -22,6 +23,11 @@ public class PagerAdapter extends FragmentPagerAdapter {
          return PAGE_COUNT;
      }
 
+    /**
+     *
+     * @param position
+     * @return fragment with list of article
+     */
      @Override
     public Fragment getItem(int position){
             if(position==0) {
