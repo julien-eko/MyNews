@@ -11,14 +11,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.darcos.julie.mynews.Activities.WebViewActivity;
 import com.darcos.julie.mynews.Models.Article;
 import com.darcos.julie.mynews.Models.ArticleList;
 import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
-import com.darcos.julie.mynews.Models.TopStories.TopStories;
 import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Utils.ItemClickSupport;
 import com.darcos.julie.mynews.Utils.TimesStreams;
@@ -41,8 +39,10 @@ public class MostPopularFragment extends Fragment {
     private List<Article> list;
     private TimesAdapter adapter;
 
-    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView;
-    @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view)
+    RecyclerView recyclerView;
+    @BindView(R.id.fragment_main_swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     public MostPopularFragment() {
 
@@ -69,8 +69,9 @@ public class MostPopularFragment extends Fragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
+
     // Configure the SwipeRefreshLayout
-    private void configureSwipeRefreshLayout(){
+    private void configureSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -80,26 +81,26 @@ public class MostPopularFragment extends Fragment {
     }
 
     // when user click on article open on a webView
-    private void configureOnClickRecyclerView(){
+    private void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_article_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
                         Intent webView = new Intent(MostPopularFragment.this.getContext(), WebViewActivity.class);
-                        webView.putExtra("url",adapter.getUrl(position));
-                        webView.putExtra("title",adapter.getResume(position));
+                        webView.putExtra("url", adapter.getUrl(position));
+                        webView.putExtra("title", adapter.getResume(position));
                         startActivity(webView);
 
-                        Log.e("TAG", "Position : "+position);
+                        Log.e("TAG", "Position : " + position);
                     }
                 });
     }
 
     // Configure RecyclerView, Adapter, LayoutManager & glue it together
-    private void configureRecyclerView(){
+    private void configureRecyclerView() {
         //Reset list
-        this.list =new ArrayList<>();
+        this.list = new ArrayList<>();
         //Create adapter passing the list of users
         this.adapter = new TimesAdapter(this.list, Glide.with(this));
         //Attach the adapter to the recyclerview to populate items
@@ -112,7 +113,7 @@ public class MostPopularFragment extends Fragment {
     // HTTP (RxJAVA)
     // -------------------
 
-    private void executeHttpRequestWithRetrofit(){
+    private void executeHttpRequestWithRetrofit() {
         this.disposable = TimesStreams.streamMostPopular().subscribeWith(new DisposableObserver<MostPopular>() {
             @Override
             public void onNext(MostPopular articles) {
@@ -122,7 +123,7 @@ public class MostPopularFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG","Error MostPopularFragment "+Log.getStackTraceString(e));
+                Log.e("TAG", "Error MostPopularFragment " + Log.getStackTraceString(e));
             }
 
             @Override
@@ -131,16 +132,16 @@ public class MostPopularFragment extends Fragment {
         });
     }
 
-    private void disposeWhenDestroy(){
+    private void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
     //update UI whith list of article MostPopular
-    private void updateUI(MostPopular articles){
+    private void updateUI(MostPopular articles) {
 
         swipeRefreshLayout.setRefreshing(false);
         this.list.clear();
-        ArticleList.listMostPopular(this.list,articles);
+        ArticleList.listMostPopular(this.list, articles);
         adapter.notifyDataSetChanged();
     }
 

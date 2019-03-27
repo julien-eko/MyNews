@@ -1,6 +1,5 @@
 package com.darcos.julie.mynews.Models;
 
-import android.widget.Toast;
 
 import com.darcos.julie.mynews.Models.MostPopular.MostPopular;
 import com.darcos.julie.mynews.Models.MostPopular.ResultMostPopular;
@@ -15,18 +14,19 @@ public class ArticleList {
 
     /**
      * added to a list of items and initializes their parameter
-     * @param listArticle
-     * @param topStories
+     *
+     * @param listArticle empty list
+     * @param topStories top Stories api
      */
-    public static void listTopStories (List<Article> listArticle, TopStories topStories){
-        for(Result result:topStories.getResults()){
+    public static void listTopStories(List<Article> listArticle, TopStories topStories) {
+        for (Result result : topStories.getResults()) {
             Article article = new Article();
 
             //if no image displays a default image else app crash
-            if (result.getMultimedia().size() !=0) {
+            if (result.getMultimedia().size() != 0) {
                 article.setImage(result.getMultimedia().get(0).getUrl());
             } else {
-               article.setImage(null);
+                article.setImage(null);
             }
 
             article.setUrl(result.getUrl());
@@ -42,22 +42,23 @@ public class ArticleList {
 
             article.setDate(date(result.getCreatedDate()));
 
-          listArticle.add(article);
+            listArticle.add(article);
         }
 
     }
 
     /**
      * added to a list of items and initializes their parameter
-      * @param listArticle
-     * @param search
+     *
+     * @param listArticle empty list
+     * @param search Search api
      */
-    public static  void listSearchArticle (List<Article> listArticle, Search search){
-        for(Doc result : search.getResponse().getDocs()){
+    public static void listSearchArticle(List<Article> listArticle, Search search) {
+        for (Doc result : search.getResponse().getDocs()) {
             Article article = new Article();
 
             //if no image displays a default image else app crash
-            if (result.getMultimedia().size() !=0) {
+            if (result.getMultimedia().size() != 0) {
                 article.setImage("https://static01.nyt.com/" + result.getMultimedia().get(0).getUrl());
             } else {
                 article.setImage(null);
@@ -77,15 +78,16 @@ public class ArticleList {
 
     /**
      * added to a list of items and initializes their parameter
-     * @param listArticle
-     * @param mostPopular
+     *
+     * @param listArticle empty list
+     * @param mostPopular MostPopular api
      */
-    public static void listMostPopular (List<Article> listArticle, MostPopular mostPopular){
-        for(ResultMostPopular result : mostPopular.getResults()){
+    public static void listMostPopular(List<Article> listArticle, MostPopular mostPopular) {
+        for (ResultMostPopular result : mostPopular.getResults()) {
             Article article = new Article();
 
             //if no image displays a default image else app crash
-            if (result.getMedia().get(0).getMediaMetadata().size() !=0) {
+            if (result.getMedia().get(0).getMediaMetadata().size() != 0) {
                 article.setImage(result.getMedia().get(0).getMediaMetadata().get(0).getUrl());
             } else {
                 article.setImage(null);
@@ -106,13 +108,14 @@ public class ArticleList {
 
     /**
      * formating date of api
-     * @param date
+     *
+     * @param date date of api
      * @return formating date dd/mm/yyyy
      */
-    public static String date (String date){
-        String year=date.substring(2,4);
-        String month=date.substring(5,7);
-        String day=date.substring(8,10);
+    public static String date(String date) {
+        String year = date.substring(2, 4);
+        String month = date.substring(5, 7);
+        String day = date.substring(8, 10);
 
         date = day + "/" + month + "/" + year;
         return date;

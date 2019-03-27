@@ -6,12 +6,9 @@ import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
-import android.widget.Toast;
 
-import com.darcos.julie.mynews.Activities.NotificationsActivity;
 import com.darcos.julie.mynews.Models.Search.Search;
 import com.darcos.julie.mynews.R;
 
@@ -19,8 +16,6 @@ import java.util.Calendar;
 
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-
-import static android.content.Context.MODE_PRIVATE;
 
 public class MyAlarmReceiver extends BroadcastReceiver {
 
@@ -32,9 +27,9 @@ public class MyAlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        this.context=context;
-        this.querySearch=intent.getStringExtra("queryShearch");
-        this.newsDesk=intent.getStringExtra("newsDesk");
+        this.context = context;
+        this.querySearch = intent.getStringExtra("queryShearch");
+        this.newsDesk = intent.getStringExtra("newsDesk");
         this.executeHttpRequestWithRetrofit();
 
     }
@@ -42,17 +37,18 @@ public class MyAlarmReceiver extends BroadcastReceiver {
     //Api Shearch for found nulber of article pusblied today
     private void executeHttpRequestWithRetrofit() {
 
-        this.disposable = TimesStreams.streamSearch(querySearch,newsDesk,dateToday(), dateToday()).subscribeWith(new DisposableObserver<Search>() {
+        this.disposable = TimesStreams.streamSearch(querySearch, newsDesk, dateToday(), dateToday()).subscribeWith(new DisposableObserver<Search>() {
             @Override
             public void onNext(Search articles) {
                 //nulber of article
                 int i = articles.getResponse().getMeta().getHits();
-                notificationText=Integer.toString(i)+" articles have been published today";
+                notificationText = Integer.toString(i) + " articles have been published today";
             }
 
             @Override
             public void onError(Throwable e) {
             }
+
             //createNotification
             @Override
             public void onComplete() {
@@ -64,6 +60,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
 
     /**
      * formating date of the day for api
+     *
      * @return date of the day
      */
     public String dateToday() {
@@ -84,7 +81,7 @@ public class MyAlarmReceiver extends BroadcastReceiver {
             m = "0" + m;
         }
 
-        return (y+m+d);
+        return (y + m + d);
     }
 
     //Create notification
@@ -99,18 +96,18 @@ public class MyAlarmReceiver extends BroadcastReceiver {
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
-            NotificationManager notificationManager =  context.getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
 
-            Notification notification = new NotificationCompat.Builder(context,"channel")
+            Notification notification = new NotificationCompat.Builder(context, "channel")
                     .setSmallIcon(R.drawable.news)
                     .setContentText(notificationText)
                     .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                     .build();
-            notificationManager.notify(1,notification);
+            notificationManager.notify(1, notification);
         }
         //for api no suport notification channel
-        else{
+        else {
             Notification notification = new NotificationCompat.Builder(context)
                     .setSmallIcon(R.drawable.news)
                     .setContentText(notificationText)

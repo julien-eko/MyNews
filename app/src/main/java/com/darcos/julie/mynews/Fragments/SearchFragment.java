@@ -14,10 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.darcos.julie.mynews.Activities.ResultSearch;
 import com.darcos.julie.mynews.Activities.SearchActivity;
 import com.darcos.julie.mynews.Activities.WebViewActivity;
 import com.darcos.julie.mynews.Models.Article;
@@ -51,8 +49,10 @@ public class SearchFragment extends Fragment {
     private String endDate;
     private String querySearch;
     private String newsDesk;
-    @BindView(R.id.fragment_main_swipe_container_search) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.fragment_main_recycler_view_search) RecyclerView recyclerView;
+    @BindView(R.id.fragment_main_swipe_container_search)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view_search)
+    RecyclerView recyclerView;
 
     private callback mCallback;
 
@@ -185,7 +185,7 @@ public class SearchFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG","Error SearchFragment "+Log.getStackTraceString(e));
+                Log.e("TAG", "Error SearchFragment " + Log.getStackTraceString(e));
             }
 
             @Override

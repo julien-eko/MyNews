@@ -17,20 +17,17 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.darcos.julie.mynews.Models.Search.Search;
+
 import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Utils.MyAlarmReceiver;
-import com.darcos.julie.mynews.Utils.TimesStreams;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.observers.DisposableObserver;
+
 
 public class NotificationsActivity extends AppCompatActivity implements CompoundButton.OnCheckedChangeListener {
 
@@ -39,15 +36,24 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     private PendingIntent pendingIntent;
     private String button;
 
-    @BindView(R.id.checkbox_arts) CheckBox checkBoxArts;
-    @BindView(R.id.checkbox_politics) CheckBox checkBoxPolitics;
-    @BindView(R.id.checkbox_business) CheckBox checkBoxBusiness;
-    @BindView(R.id.checkbox_sports) CheckBox checkBoxSports;
-    @BindView(R.id.checkbox_entrepreneurs) CheckBox checkBoxEntrepreneurs;
-    @BindView(R.id.checkbox_travel) CheckBox checkBoxTravels;
-    @BindView(R.id.toggle_button_notifications) ToggleButton toggle;
-    @BindView(R.id.activity_notification_toolbar) Toolbar toolbarNotifications;
-    @BindView(R.id.search_query_term_notification) EditText editText;
+    @BindView(R.id.checkbox_arts)
+    CheckBox checkBoxArts;
+    @BindView(R.id.checkbox_politics)
+    CheckBox checkBoxPolitics;
+    @BindView(R.id.checkbox_business)
+    CheckBox checkBoxBusiness;
+    @BindView(R.id.checkbox_sports)
+    CheckBox checkBoxSports;
+    @BindView(R.id.checkbox_entrepreneurs)
+    CheckBox checkBoxEntrepreneurs;
+    @BindView(R.id.checkbox_travel)
+    CheckBox checkBoxTravels;
+    @BindView(R.id.toggle_button_notifications)
+    ToggleButton toggle;
+    @BindView(R.id.activity_notification_toolbar)
+    Toolbar toolbarNotifications;
+    @BindView(R.id.search_query_term_notification)
+    EditText editText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,13 +70,15 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         this.toggle.setOnCheckedChangeListener(this);
 
         //initialize with the last backups
-        this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit",null));
-        this.button = getPreferences(MODE_PRIVATE).getString("toggle",null);
+        this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit", null));
+        this.button = getPreferences(MODE_PRIVATE).getString("toggle", null);
 
-        if(this.button.equals("checked")){
-            toggle.setChecked(true);
-        }else{
-            toggle.setChecked(false);
+        if (this.button != null) {
+            if (this.button.equals("checked")) {
+                toggle.setChecked(true);
+            } else {
+                toggle.setChecked(false);
+            }
         }
 
     }
@@ -82,7 +90,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         preferences.edit().putString("toggle", this.button).apply();
         preferences.edit().putString("edit", this.editText.getText().toString()).apply();
-        for(int i=0;i<6;i++) {
+        for (int i = 0; i < 6; i++) {
             preferences.edit().putString("listCheckbox" + i, this.listCheckedNotification.get(i)).apply();
         }
     }
@@ -93,18 +101,18 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
         if (isChecked) {
             startAlarm();
-            this.button="checked";
+            this.button = "checked";
         } else {
             stopAlarm();
-            this.button="";
+            this.button = "";
         }
     }
 
     //Configuring the AlarmManager and save inforpation in intent for notification message
     private void configureAlarmManager() {
         Intent alarmIntent = new Intent(NotificationsActivity.this, MyAlarmReceiver.class);
-            alarmIntent.putExtra("queryShearch",editText.getText().toString());
-            alarmIntent.putExtra("newsDesk",newsDesk());
+        alarmIntent.putExtra("queryShearch", editText.getText().toString());
+        alarmIntent.putExtra("newsDesk", newsDesk());
 
         pendingIntent = PendingIntent.getBroadcast(NotificationsActivity.this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
@@ -113,7 +121,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // Start Alarm at 19:00 and repeat all day if actived
     private void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-       manager.setRepeating(AlarmManager.RTC_WAKEUP,times(19,00),AlarmManager.INTERVAL_DAY, pendingIntent);
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, times(19, 0), AlarmManager.INTERVAL_DAY, pendingIntent);
         Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
 
     }
@@ -146,29 +154,29 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     }
 
     //check or uncheck checkbox with last save
-    private void configureCheckbox(){
+    private void configureCheckbox() {
         this.listCheckedNotification = new ArrayList<>();
-        for(int i=0;i<6;i++) {
+        for (int i = 0; i < 6; i++) {
             this.listCheckedNotification.add(getPreferences(MODE_PRIVATE).getString("listCheckbox" + i, null));
         }
 
 
-        if(this.listCheckedNotification.get(0) != null){
+        if (this.listCheckedNotification.get(0) != null) {
             this.checkBoxArts.setChecked(true);
         }
-        if(this.listCheckedNotification.get(1) != null){
+        if (this.listCheckedNotification.get(1) != null) {
             this.checkBoxPolitics.setChecked(true);
         }
-        if(this.listCheckedNotification.get(2) != null){
+        if (this.listCheckedNotification.get(2) != null) {
             this.checkBoxBusiness.setChecked(true);
         }
-        if(this.listCheckedNotification.get(3) != null){
+        if (this.listCheckedNotification.get(3) != null) {
             this.checkBoxSports.setChecked(true);
         }
-        if(this.listCheckedNotification.get(4) != null){
+        if (this.listCheckedNotification.get(4) != null) {
             this.checkBoxEntrepreneurs.setChecked(true);
         }
-        if(this.listCheckedNotification.get(5) != null){
+        if (this.listCheckedNotification.get(5) != null) {
             this.checkBoxTravels.setChecked(true);
         }
     }
@@ -223,7 +231,8 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
     /**
      * use for choose times of notification
-     * @param hours chosse your hours
+     *
+     * @param hours  chosse your hours
      * @param minute choose your minutes
      * @return time in millis
      */
@@ -239,22 +248,23 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
 
     /**
      * formating list for apiShearch
+     *
      * @return newsDesk for apiShearch
      */
     public String newsDesk() {
-        String q;
-        q = "news_desk:(";
+        StringBuilder q;
+        q = new StringBuilder("news_desk:(");
 
         for (int i = 0; i < this.listCheckedNotification.size(); i++) {
             if (this.listCheckedNotification.get(i) == null) {
 
             } else {
-                q = q + "\"" + this.listCheckedNotification.get(i) + "\" ";
+                q.append("\"").append(this.listCheckedNotification.get(i)).append("\" ");
             }
         }
 
-        q=q + ")";
-        return q;
+        q.append(")");
+        return q.toString();
     }
 
 

@@ -38,17 +38,18 @@ public class TimesAdapter extends RecyclerView.Adapter<TimesViewHolder> {
     // UPDATE VIEW
     @Override
     public void onBindViewHolder(TimesViewHolder viewHolder, int position) {
-        viewHolder.updateWithTimesUser(this.list.get(position),this.glide);
+        viewHolder.updateWithTimesUser(this.list.get(position), this.glide);
     }
 
-    public String getUrl(int position){
+    public String getUrl(int position) {
         return this.list.get(position).getUrl();
     }
 
 
-    public String getResume(int position){
+    public String getResume(int position) {
         return this.list.get(position).getTitle();
     }
+
     // RETURN THE TOTAL COUNT OF ITEMS IN THE LIST
     @Override
     public int getItemCount() {

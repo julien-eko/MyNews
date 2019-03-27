@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.darcos.julie.mynews.R;
 import com.darcos.julie.mynews.Fragments.DatePickerFragment;
@@ -26,8 +25,6 @@ import butterknife.ButterKnife;
 
 public class SearchActivity extends AppCompatActivity implements View.OnClickListener {
 
-
-    private List<String> listChecked;
     @BindView(R.id.search_button)
     Button searchButton;
     @BindView(R.id.search_query_term)
@@ -38,7 +35,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
     private static String endDate = dateToday();
     private static Button beginDateButton;
     private static Button endDateButton;
-
+    private List<String> listChecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +51,8 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
             this.listChecked.add(null);
         }
 
-        this.beginDateButton = (Button) findViewById(R.id.begin_date_button);
-        this.endDateButton = (Button) findViewById(R.id.end_date_button);
+        beginDateButton = findViewById(R.id.begin_date_button);
+        endDateButton = findViewById(R.id.end_date_button);
         beginDateButton.setText(beginDate);
         endDateButton.setText(endDate);
 
@@ -153,7 +150,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                     this.listChecked.set(5, null);
                 break;
         }
-        if (buttonenable() == true) {
+        if (buttonenable()) {
             searchButton.setEnabled(true);
         } else {
             searchButton.setEnabled(false);
@@ -163,26 +160,28 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * formating newDesk for api Search
+     *
      * @return newDesk for api Search
      */
     public String newsDesk() {
-        String q;
-        q = "news_desk:(";
+        StringBuilder q;
+        q = new StringBuilder("news_desk:(");
 
         for (int i = 0; i < this.listChecked.size(); i++) {
             if (this.listChecked.get(i) == null) {
 
             } else {
-                q = q + "\"" + this.listChecked.get(i) + "\" ";
+                q.append("\"").append(this.listChecked.get(i)).append("\" ");
             }
         }
 
-        q = q + ")";
-        return q;
+        q.append(")");
+        return q.toString();
     }
 
     /**
      * check if there is at least one category selected
+     *
      * @return true if button enable or else if disable
      */
     public boolean buttonenable() {
@@ -193,15 +192,12 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
                 j = j + 1;
             }
         }
-        if (j == 6) {
-            return false;
-        } else {
-            return true;
-        }
+        return j != 6;
     }
 
     /**
      * date of the day
+     *
      * @return dd/mm/yyyy
      */
     public static String dateToday() {
@@ -229,6 +225,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * update begindate and change text of button beginddate
+     *
      * @param date chosen by user
      */
     public static void setBeginDate(String date) {
@@ -238,6 +235,7 @@ public class SearchActivity extends AppCompatActivity implements View.OnClickLis
 
     /**
      * update enddate and change text of button endddate
+     *
      * @param date chosen by user
      */
     public static void setEndDate(String date) {

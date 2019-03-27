@@ -2,18 +2,15 @@ package com.darcos.julie.mynews.Fragments;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.view.View;
 import android.widget.DatePicker;
-import android.widget.Toast;
 
 import com.darcos.julie.mynews.Activities.SearchActivity;
 
 import java.util.Calendar;
 
-public  class DatePickerFragment extends DialogFragment
+public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
     @Override
@@ -31,33 +28,33 @@ public  class DatePickerFragment extends DialogFragment
     //when user change date change value of button
     public void onDateSet(DatePicker view, int year, int month, int day) {
 
-        if (getTag() == "begin") {
+        if (getTag().equals("begin")) {
 
             String y = Integer.toString(year);
             String m = Integer.toString(month + 1);
             String d = Integer.toString(day);
 
-            if(d.length()==1) {
+            if (d.length() == 1) {
                 d = "0" + d;
             }
-            if(m.length()==1) {
+            if (m.length() == 1) {
                 m = "0" + m;
             }
 
-            SearchActivity.setBeginDate(d + "/"+m+"/"+y);
+            SearchActivity.setBeginDate(d + "/" + m + "/" + y);
         }
 
-        if(getTag() == "end"){
+        if (getTag().equals("end")) {
             String y = Integer.toString(year);
             String m = Integer.toString(month + 1);
             String d = Integer.toString(day);
-            if(d.length()==1) {
+            if (d.length() == 1) {
                 d = "0" + d;
             }
-            if(m.length()==1) {
+            if (m.length() == 1) {
                 m = "0" + m;
             }
-            SearchActivity.setEndDate(d + "/"+m+"/"+y);
+            SearchActivity.setEndDate(d + "/" + m + "/" + y);
         }
     }
 }

@@ -1,8 +1,5 @@
 package com.darcos.julie.mynews.Models;
 
-import com.darcos.julie.mynews.Models.TopStories.Result;
-import com.darcos.julie.mynews.R;
-
 /**
  * getter and setteur of varaible of articles
  */
@@ -20,7 +17,8 @@ public class Article {
     private String image;
 
 
-    public Article(){}
+    public Article() {
+    }
 
 
     public void setTitle(String title) {
@@ -42,7 +40,6 @@ public class Article {
     public void setImage(String image) {
         this.image = image;
     }
-
 
 
     public String getTitle() {

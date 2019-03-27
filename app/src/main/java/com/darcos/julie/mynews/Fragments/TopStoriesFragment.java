@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.darcos.julie.mynews.Activities.WebViewActivity;
@@ -39,10 +38,13 @@ public class TopStoriesFragment extends Fragment {
     private Disposable disposable;
     private List<Article> list;
     private TimesAdapter adapter;
-    @BindView(R.id.fragment_main_swipe_container) SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.fragment_main_recycler_view) RecyclerView recyclerView;
+    @BindView(R.id.fragment_main_swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.fragment_main_recycler_view)
+    RecyclerView recyclerView;
 
-    public TopStoriesFragment() { }
+    public TopStoriesFragment() {
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,8 +66,9 @@ public class TopStoriesFragment extends Fragment {
         super.onDestroy();
         this.disposeWhenDestroy();
     }
+
     //Configure the SwipeRefreshLayout
-    private void configureSwipeRefreshLayout(){
+    private void configureSwipeRefreshLayout() {
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -73,27 +76,28 @@ public class TopStoriesFragment extends Fragment {
             }
         });
     }
+
     // when user click on article open on a webView
-    private void configureOnClickRecyclerView(){
+    private void configureOnClickRecyclerView() {
         ItemClickSupport.addTo(recyclerView, R.layout.fragment_article_item)
                 .setOnItemClickListener(new ItemClickSupport.OnItemClickListener() {
                     @Override
                     public void onItemClicked(RecyclerView recyclerView, int position, View v) {
 
                         Intent webView = new Intent(TopStoriesFragment.this.getContext(), WebViewActivity.class);
-                        webView.putExtra("url",adapter.getUrl(position));
-                        webView.putExtra("title",adapter.getResume(position));
+                        webView.putExtra("url", adapter.getUrl(position));
+                        webView.putExtra("title", adapter.getResume(position));
                         startActivity(webView);
 
-                        Log.e("TAG", "Position : "+position);
+                        Log.e("TAG", "Position : " + position);
                     }
                 });
     }
 
     //Configure RecyclerView, Adapter, LayoutManager & glue it together
-    private void configureRecyclerView(){
+    private void configureRecyclerView() {
         //Reset list
-        this.list =new ArrayList<>();
+        this.list = new ArrayList<>();
         //Create adapter passing the list of users
         this.adapter = new TimesAdapter(this.list, Glide.with(this));
         //Attach the adapter to the recyclerview to populate items
@@ -106,7 +110,7 @@ public class TopStoriesFragment extends Fragment {
     // HTTP (RxJAVA)
     // -------------------
 
-    private void executeHttpRequestWithRetrofit(){
+    private void executeHttpRequestWithRetrofit() {
         this.disposable = TimesStreams.streamTopStories("home").subscribeWith(new DisposableObserver<TopStories>() {
             @Override
             public void onNext(TopStories articles) {
@@ -115,23 +119,24 @@ public class TopStoriesFragment extends Fragment {
 
             @Override
             public void onError(Throwable e) {
-                Log.e("TAG","Error TopStoriesFragment "+Log.getStackTraceString(e));
+                Log.e("TAG", "Error TopStoriesFragment " + Log.getStackTraceString(e));
             }
 
             @Override
-            public void onComplete() { }
+            public void onComplete() {
+            }
         });
     }
 
-    private void disposeWhenDestroy(){
+    private void disposeWhenDestroy() {
         if (this.disposable != null && !this.disposable.isDisposed()) this.disposable.dispose();
     }
 
     //update with list of aticles
-    private void updateUI(TopStories articles){
+    private void updateUI(TopStories articles) {
         swipeRefreshLayout.setRefreshing(false);
         this.list.clear();
-        ArticleList.listTopStories(this.list,articles);
+        ArticleList.listTopStories(this.list, articles);
         adapter.notifyDataSetChanged();
     }
 

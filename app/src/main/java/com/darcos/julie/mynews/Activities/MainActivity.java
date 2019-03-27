@@ -2,6 +2,7 @@ package com.darcos.julie.mynews.Activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
@@ -14,6 +15,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import com.darcos.julie.mynews.Views.PagerAdapter;
 import com.darcos.julie.mynews.R;
 
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     @BindView(R.id.activity_main_viewPager)
     ViewPager viewPager;
+    @BindView(R.id.activiy_main_tabLayout)
+    TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     //navigation drawer
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         int id = item.getItemId();
 
@@ -150,12 +154,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void configureNavigationView() {
         navigationView.setNavigationItemSelectedListener(this);
     }
+
     //Configure ViewPager
     private void configureViewPager() {
 
         this.viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager()));
 
-        TabLayout tabs = (TabLayout) findViewById(R.id.activiy_main_tabLayout);
         tabs.setupWithViewPager(this.viewPager);
     }
 
@@ -174,6 +178,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
     // when clik on about open a new pop up
     private void about() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

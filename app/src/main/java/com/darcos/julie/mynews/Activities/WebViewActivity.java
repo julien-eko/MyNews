@@ -18,8 +18,10 @@ import butterknife.ButterKnife;
  */
 public class WebViewActivity extends AppCompatActivity {
 
-    @BindView(R.id.activity_webview) Toolbar toolbarweb;
-    @BindView(R.id.activity_main_webview) WebView webView;
+    @BindView(R.id.activity_webview)
+    Toolbar toolbarweb;
+    @BindView(R.id.activity_main_webview)
+    WebView webView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
