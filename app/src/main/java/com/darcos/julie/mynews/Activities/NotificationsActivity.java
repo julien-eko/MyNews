@@ -73,6 +73,7 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         this.editText.setText(getPreferences(MODE_PRIVATE).getString("edit", null));
         this.button = getPreferences(MODE_PRIVATE).getString("toggle", null);
 
+
         if (this.button != null) {
             if (this.button.equals("checked")) {
                 toggle.setChecked(true);
@@ -118,18 +119,24 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     }
 
 
-    // Start Alarm at 19:00 and repeat all day if actived
+    // Start Alarm at 19:00 and repeat all day if actived if one category or more selected
     private void startAlarm() {
-        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, times(19, 0), AlarmManager.INTERVAL_DAY, pendingIntent);
-        Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
-
+        if(buttonenable()) {
+            AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, times(19, 0), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
+        }else{
+            stopAlarm();
+            Toast.makeText(this, "Select one category", Toast.LENGTH_SHORT).show();
+            toggle.setChecked(false);
+        }
     }
 
     // Stop Alarm
     private void stopAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
+        toggle.setChecked(false);
         Toast.makeText(this, "Alarm Canceled !", Toast.LENGTH_SHORT).show();
     }
 
@@ -226,6 +233,9 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
                     this.listCheckedNotification.set(5, null);
                 break;
         }
+        if(buttonenable() == false) {
+            startAlarm();
+        }
         this.configureAlarmManager();
     }
 
@@ -267,5 +277,19 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
         return q.toString();
     }
 
+    /**
+     * check if there is at least one category selected
+     *
+     * @return true if button enable or else if disable
+     */
+    public boolean buttonenable() {
+        int j = 0;
+        for (int i = 0; i < this.listCheckedNotification.size(); i++) {
 
+            if (this.listCheckedNotification.get(i) == null) {
+                j = j + 1;
+            }
+        }
+        return j != 6;
+    }
 }

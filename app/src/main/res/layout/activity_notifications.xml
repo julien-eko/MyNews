@@ -55,6 +55,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/toolbar"
+                android:textOn="Enable"
+                android:textOff="Disable"
                 android:layout_marginLeft="20dp"/>
         </LinearLayout>
 
