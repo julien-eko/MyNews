@@ -122,8 +122,9 @@ public class NotificationsActivity extends AppCompatActivity implements Compound
     // Start Alarm at 19:00 and repeat all day if actived if one category or more selected
     private void startAlarm() {
         if(buttonenable()) {
+            configureAlarmManager();
             AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            manager.setRepeating(AlarmManager.RTC_WAKEUP, times(19, 0), AlarmManager.INTERVAL_DAY, pendingIntent);
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, times(20, 0), AlarmManager.INTERVAL_DAY, pendingIntent);
             Toast.makeText(this, "Alarm set !", Toast.LENGTH_SHORT).show();
         }else{
             stopAlarm();
