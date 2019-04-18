@@ -40,7 +40,7 @@ android:
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     
     # Specify at least one system image for emulator
-    - sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
+    - sys-img-armeabi-v7a-addon-google_apis-google-$ANDROID_API_LEVEL
     
     # Additional components
     - extra-android-m2repository
@@ -50,7 +50,7 @@ android:
 
 before_script: 
 
-- echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi armeabi-v7a
+- echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --google_apis/armeabi-v7a
 - emulator -avd test -no-skin -no-audio -no-window &
 - android-wait-for-emulator
 - adb shell input keyevent 82 &
