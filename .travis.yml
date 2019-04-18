@@ -17,8 +17,10 @@ env:
   #Install Timeout (by default 2min is not enough for slow computers)
    - ADB_INSTALL_TIMEOUT=20 
 
-
+   
    #... 
+
+   - ANDROID_ABI=google_apis/armeabi-v7a
    
 android:
  components:
@@ -48,11 +50,12 @@ android:
     #...
  # ... 
 
-before_script:
-  - echo no | android create avd --force -n test -t android-22 --abi armeabi-v7a -c 100M
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
+before_script: 
+
+- echo no | android create avd --force -n test -t android-$ANDROID_API_LEVEL --abi armeabi-v7a
+- emulator -avd test -no-skin -no-audio -no-window &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
 
 # ...
 script: 
