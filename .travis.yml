@@ -7,6 +7,8 @@ env:
   global:
   #Android API Version for the code
    - ANDROID_API_LEVEL=26
+
+   - ANDROID_ABI=google_apis/armeabi-v7a
    
   #Android API Version for the emulator 
    - EMULATOR_API_LEVEL=22
@@ -17,10 +19,9 @@ env:
   #Install Timeout (by default 2min is not enough for slow computers)
    - ADB_INSTALL_TIMEOUT=20 
 
-   
    #... 
 
-   - ANDROID_ABI=google_apis/armeabi-v7a
+
    
 android:
  components:
