@@ -7,6 +7,9 @@ import com.darcos.julie.mynews.Models.Search.Search;
 
 import org.junit.Test;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static org.junit.Assert.*;
 
 /**
@@ -27,7 +30,9 @@ public class UnitTest {
 
     @Test
     public void dateTodayTest() {
-        String date = "25/03/2019";
+
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        String date = formatter.format(new Date());
         assertEquals(date, SearchActivity.dateToday());
     }
 
@@ -36,5 +41,7 @@ public class UnitTest {
         String date = "2019-03-22T08:30:05-04:00";
         assertEquals("22/03/19", ArticleList.date(date));
     }
+
+
 
 }
