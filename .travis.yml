@@ -1,5 +1,5 @@
 language : android
-
+jdk: oraclejdk8
 # ...
 
 # Global Reference Values for the file
@@ -8,7 +8,6 @@ env:
   #Android API Version for the code
    - ANDROID_API_LEVEL=26
 
-   - ANDROID_ABI=google_apis/armeabi-v7a
    
   #Android API Version for the emulator 
    - EMULATOR_API_LEVEL=22
@@ -18,7 +17,8 @@ env:
    
   #Install Timeout (by default 2min is not enough for slow computers)
    - ADB_INSTALL_TIMEOUT=20 
-   - ANDROID_ABI=google_apis/armeabi-v7a
+   - ANDROID-ABI=armeabi-v7a
+   - ANDROID_TAG=google_apis
 
    #... 
 
@@ -44,10 +44,13 @@ android:
     - build-tools-$ANDROID_BUILD_TOOLS_VERSION
     
     # Specify at least one system image for emulator
-    - sys-img-armeabi-v7a-android-$EMULATOR_API_LEVEL
+    - sys-img-$ANDROID_ABI-google_apis-$ANDROID_EMULATOR_LEVEL
     
     # Additional components
     - extra-android-m2repository
+    - extra-google-m2repository
+    - extrat-android-support
+
 
     #...
  # ... 
